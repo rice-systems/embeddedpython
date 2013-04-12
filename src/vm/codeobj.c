@@ -355,8 +355,6 @@ co_copy(pPmCo_t pco, pPmCo_t *r_pco)
     PM_RETURN_IF_ERROR(retval);
     retval = obj_copy((pPmObj_t)co_getVarNames(pco), (pPmObj_t *)&pnewco->co_varnames);
     PM_RETURN_IF_ERROR(retval);
-    retval = obj_copy((pPmObj_t)co_getConsts(pco), (pPmObj_t *)&pnewco->co_consts);
-    PM_RETURN_IF_ERROR(retval);
     retval = obj_copy((pPmObj_t)co_getFilename(pco), (pPmObj_t *)&pnewco->co_filename);
     PM_RETURN_IF_ERROR(retval);
     retval = obj_copy((pPmObj_t)co_getLnotab(pco), (pPmObj_t *)&pnewco->lnotab);
