@@ -565,6 +565,48 @@ string_strstr(pPmString_t haystack, int16_t offset, pPmString_t needle)
 }
 
 PmReturn_t
+string_strip(pPmString_t ps1, pPmObj_t *ps2)
+{
+    PmReturn_t retval = PM_RET_OK;
+    int16_t offset, start, end;
+    uint16_t ps1len;
+    uint8_t c;
+
+    ps1len = ps1->length;
+
+    /* Skip leading whitespace */
+    for (offset = 0; offset < ps1len; offset++) {
+        c = ps1->val[offset];
+        if ((c == ' ' || c == '\n'|| c == '\t'))
+        {
+            continue;
+        }
+        break;
+    }
+    start = offset;
+
+    /* Skip trailing whitespace */
+    end = ps1len;
+    for (; offset < ps1len; offset++) {
+        c = ps1->val[offset];
+        if ((c == ' ' || c == '\n'|| c == '\t')) {
+            if (end == ps1len) {
+                end = offset;
+            }
+        }
+        else if (end != ps1len) {
+            end = ps1len;
+        }
+    }
+
+    /* Slice off the leading & trailing whitespace */
+    retval = string_slice(ps1, start, end, ps2);
+    PM_RETURN_IF_ERROR(retval);
+
+    return retval;
+}
+
+PmReturn_t
 string_split(pPmString_t ps1, pPmString_t ps2, pPmBoolean_t pb, pPmList_t *pl)
 {
     PmReturn_t retval = PM_RET_OK;

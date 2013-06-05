@@ -163,4 +163,13 @@ int16_t string_strstr(pPmString_t haystack, int16_t offset, pPmString_t needle);
  */
 PmReturn_t string_split(pPmString_t ps1, pPmString_t ps2, pPmBoolean_t pb, pPmList_t *pl);
 
+/**
+ * Returns a slice of the original string with leading and trailing whitespace
+ * removed.
+ * @param ps1 String to be stripped
+ * @param ps2 String to hold stripped version of ps1
+ * @return Return status
+ */
+PmReturn_t string_strip(pPmString_t ps1, pPmObj_t *ps2);
+
 #endif /* __STRING_H__ */

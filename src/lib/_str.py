@@ -38,9 +38,6 @@ digits = "0123456789"
 hexdigits = "0123456789abcdefABCDEF"
 letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-def strip(s):
-    return split(s)[0]
-
 def join(separator, l):
     r"""__NATIVE__
     PmReturn_t retval = PM_RET_OK;
@@ -199,5 +196,25 @@ def find(s1, s2):
     """
     pass
 
+def strip(s):
+    """__NATIVE__
+    pPmString_t ps1;
+    pPmObj_t ps2;
+    PmReturn_t retval = PM_RET_OK;
 
+    /* Raise TypeError if it's not a string or wrong number of args, */
+    ps1 = (pPmString_t)NATIVE_GET_LOCAL(0);
+    if (NATIVE_GET_NUM_ARGS() != 1 || (OBJ_GET_TYPE(ps1) != OBJ_TYPE_STR))
+    {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+    }
+
+    retval = string_strip(ps1, &ps2);
+    PM_RETURN_IF_ERROR(retval);
+
+    NATIVE_SET_TOS(ps2);
+    return retval;
+    """
+    pass
 # :mode=c:
