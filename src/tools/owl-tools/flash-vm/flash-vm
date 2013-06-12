@@ -1,0 +1,33 @@
+# platform/stellaris/programmer/flash-osx
+#
+# Flashes MCU using installed OpenOCD.
+#
+# Copyright 2013 Rice University.
+#
+# This file is part of the Owl Embedded Python System and is provided under
+# the MIT open-source license. See the LICENSE and COPYING files for details
+# about your rights to use, modify, and distribute Owl.
+
+PROGNAME=$(basename $0)
+
+function die
+{
+
+    echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+    exit 1
+}
+
+if [ $# != 1 ]
+then
+  echo "usage: flash-vm binary.bin" 1>&2
+  exit 1
+fi
+
+if [ ! -f $1 ]
+then
+  die "couldn't find file: $1"
+fi
+
+cp $1 /tmp/main.bin
+openocd -f interface/luminary-icdi.cfg -f target/stellaris.cfg -f flash.cfg -c "init" -c "flash_main_bin ()"
+

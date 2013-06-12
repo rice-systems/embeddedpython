@@ -1,0 +1,26 @@
+Using and distributing the Owl Embedded Python Environment:
+
+Owl is the product of several years of development by the Rice Computer
+Architecture Group at Rice University and a collection of wonderful open-source
+software projects. Combined, they provide an open-source environment for
+programming microcontrollers that is easy and free to use.
+
+This release combines work from:
+
+ - Dean Hall's Python-on-a-Chip (http://code.google.com/p/python-on-a-chip/)
+ - libffi (http://sourceware.org/libffi/)
+ - Python (http://python.org/)
+ - libopencm3 (http://www.libopencm3.org/)
+
+Each source file contains a header that explains the license that applies to
+that particular file. The majority of the system (including the complete
+virtual machine and library) is provided under the liberal MIT license. The FFI
+subsystem is provided under the libffi license, which is identical to the MIT
+license.
+
+However, some support code, including but not limited to, the linker scripts
+for the Stellaris microcontrollers, are provided under the GNU Lesser GPL. This
+license is compatible with the MIT license with some exceptions.
+
+Any user wishing to redistribute Owl should ensure that he or she is complying
+with the licenses for all the code contained therein.

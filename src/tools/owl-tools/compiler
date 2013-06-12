@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for f in $@
+do
+    base_f=${f%.*}
+    python pmImgCreator.py -b -o $base_f.pmc $f
+done
+
