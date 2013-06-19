@@ -771,6 +771,9 @@ heap_gcMarkObj(pPmObj_t pobj)
 
             /* Mark the attrs dict */
             retval = heap_gcMarkObj((pPmObj_t)((pPmClass_t)pobj)->cl_attrs);
+
+            /* Mark the bases tuple */
+            retval = heap_gcMarkObj((pPmObj_t)((pPmClass_t)pobj)->cl_bases);
             break;
 #endif /* HAVE_CLASSES */
 
