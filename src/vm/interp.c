@@ -905,8 +905,6 @@ interpret(const uint8_t returnOnNoThreads)
                 {
                     pobj2 = (pPmObj_t)pb1;
                     pb1 = pb1->next;
-                    retval = heap_freeChunk(pobj2);
-                    PM_BREAK_IF_ERROR(retval);
                 }
 
                 /* Test again outside while loop */
@@ -920,8 +918,6 @@ interpret(const uint8_t returnOnNoThreads)
 
                 /* Pop and delete this block */
                 FP->fo_blockstack = pb1->next;
-                retval = heap_freeChunk((pPmObj_t)pb1);
-                PM_BREAK_IF_ERROR(retval);
             }
                 continue;
 
@@ -1025,10 +1021,6 @@ interpret(const uint8_t returnOnNoThreads)
                 {
                     PM_PUSH(pobj2);
                 }
-
-                /* Deallocate expired frame */
-                retval = heap_freeChunk(pobj1);
-                PM_BREAK_IF_ERROR(retval);
                 continue;
 
 #ifdef HAVE_IMPORTS
@@ -1094,8 +1086,6 @@ interpret(const uint8_t returnOnNoThreads)
                  *    comment out this line.
                  */
                 IP = ((pPmBlock_t)pobj1)->b_handler;
-
-                PM_BREAK_IF_ERROR(heap_freeChunk(pobj1));
                 continue;
 
 #ifdef HAVE_CLASSES
