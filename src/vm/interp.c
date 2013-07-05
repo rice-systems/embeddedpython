@@ -102,6 +102,20 @@ interpret(const uint8_t returnOnNoThreads)
       
             if (FP->fo_except)
             {
+
+                pobj1 = (pPmObj_t)FP->fo_except;
+                while (FP != (pPmFrame_t)pobj1) {
+                    if (FP->fo_isImport) {
+                        /* Get module name and remove from gVmGlobal.modules */
+                        pobj2 = (pPmObj_t)co_getNames(FP->fo_func->f_co);
+                        retval = tuple_getItem((pPmTuple_t)pobj2, 
+                            ((pPmTuple_t)pobj2)->length-1, &pobj2);
+                        retval = dict_delItem(gVmGlobal.modules, pobj2);
+                        PM_RETURN_IF_ERROR(retval);
+                    }
+                    FP = FP->fo_back;
+                }
+
                 /*
                  * If a fake "exception handling" frame was installed,
                  * "deliver" the exception by returning to it.
@@ -110,7 +124,6 @@ interpret(const uint8_t returnOnNoThreads)
                  * implemented.
                  */
                 RUNNINGTHREAD->interpctrl = INTERP_CTRL_RUN;
-                FP = FP->fo_except;
                 PM_PUSH(PM_NONE);
                 continue;
             }                
@@ -1708,8 +1721,7 @@ interpret(const uint8_t returnOnNoThreads)
 
                 /* #110: Prevent importing previously-loaded module */
                 /* If the named module is in modules dict, put it on the stack */
-                retval =
-                    dict_getItem(gVmGlobal.modules, pobj1, &pobj2);
+                retval = dict_getItem(gVmGlobal.modules, pobj1, &pobj2);
                 if ((retval == PM_RET_OK)
                     && (OBJ_GET_TYPE(pobj2) == OBJ_TYPE_MOD))
                 {
