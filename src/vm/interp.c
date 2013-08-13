@@ -708,6 +708,25 @@ interpret(const uint8_t returnOnNoThreads)
                     TOS = pobj3;
                     continue;
                 }
+                
+                /* #242: If both objs are lists, perform concatenation */
+                if ((OBJ_GET_TYPE(TOS) == OBJ_TYPE_LST)
+                    && (OBJ_GET_TYPE(TOS1) == OBJ_TYPE_LST))
+                {
+                    retval = list_replicate((pPmList_t) TOS1,
+                                            1,
+                                            (pPmList_t *) &pobj3);
+
+                    PM_BREAK_IF_ERROR(retval);
+                    
+                    retval = list_extend((pPmList_t) pobj3,
+                                         (pPmList_t) TOS);
+
+                    PM_BREAK_IF_ERROR(retval);
+                    SP--;
+                    TOS = pobj3;
+                    continue;
+                }
 
                 /* Otherwise raise a TypeError */
                 PM_RAISE(retval, PM_RET_EX_TYPE);

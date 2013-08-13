@@ -110,6 +110,17 @@ PmReturn_t list_append(pPmList_t plist, pPmObj_t pobj);
 PmReturn_t list_replicate(pPmList_t psrclist, int16_t n, pPmList_t *r_pnewlist);
 
 /**
+ * Extend pdstlist with the contents of psrclist
+ * This implements the python code "[0,...] * N"
+ * where the list can be any list and N is an integer.
+ *
+ * @param   psrclist The source list to replicate
+ * @param   psrclist The destination list to copy onto
+ * @return  Return status
+ */
+PmReturn_t list_extend(pPmList_t pdstlist, pPmList_t psrclist);
+
+/**
  * Inserts the object into the list at the desired index.
  *
  * @param   plist Ptr to list obj

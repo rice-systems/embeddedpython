@@ -191,6 +191,43 @@ list_replicate(pPmList_t psrclist, int16_t n, pPmList_t *r_pnewlist)
 
 
 PmReturn_t
+list_extend(pPmList_t pdstlist, pPmList_t psrclist)
+{
+    PmReturn_t retval = PM_RET_OK;
+    int16_t j = 0;
+    int16_t length = 0;
+    pPmObj_t pitem = C_NULL;
+
+    C_ASSERT(psrclist != C_NULL);
+    C_ASSERT(pdstlist != C_NULL);
+
+    /* If first arg is not a list, raise TypeError */
+    if (OBJ_GET_TYPE(psrclist) != OBJ_TYPE_LST)
+    {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+    }
+    length = psrclist->length;
+    
+    if (OBJ_GET_TYPE(pdstlist) != OBJ_TYPE_LST)
+    {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+    }
+
+    /* Iterate over the length of srclist */
+    for (j = 0; j < length; j++)
+    {
+        retval = list_getItem(psrclist, j, &pitem);
+        PM_RETURN_IF_ERROR(retval);
+        retval = list_append(pdstlist, pitem);
+        PM_RETURN_IF_ERROR(retval);
+    }
+    return retval;
+}
+
+
+PmReturn_t
 list_setItem(pPmList_t plist, int16_t index, pPmObj_t pobj)
 {
     PmReturn_t retval;
