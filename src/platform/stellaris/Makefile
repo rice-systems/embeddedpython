@@ -43,8 +43,7 @@ PM_USR_SOURCES +=  build.py
 PM_USR_SOURCES += autowrapped/sysctl.py autowrapped/gpio.py autowrapped/pwm.py
 PM_USR_SOURCES += autowrapped/adc.py autowrapped/i2c.py autowrapped/qei.py
 PM_USR_SOURCES += autowrapped/uart.py
-PM_USR_SOURCES += lib/spi.py
-PMIMGCREATOR := ../../tools/user/pmImgCreator.py
+PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
 IPM := true
 COMPILER = gcc
 
@@ -62,7 +61,7 @@ TARGET = main
 
 # List C source files here. 
 SRC  = $(TARGET).c $(TARGET)_nat.c $(TARGET)_img.c
-SRC += interrupts.c plat_9x92.c usb/plat_usb.c lib/sd.c
+SRC += interrupts.c plat_9x92.c usb/plat_usb.c
 
 # include the FFI source
 SRC += ffi/ffi_arm.c
@@ -188,8 +187,8 @@ EXTRA_LIBS += m
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
 LDFLAGS = -Wl,-Map=$(TARGET).map,--cref,--gc-sections
-#LDFLAGS += -nostartfiles 
-#LDFLAGS += -lc -lgcc 
+LDFLAGS += -nostartfiles 
+LDFLAGS += -lc -lgcc 
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -mcpu=$(MCU) $(THUMB)

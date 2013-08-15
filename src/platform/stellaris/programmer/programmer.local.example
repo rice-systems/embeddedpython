@@ -8,5 +8,6 @@
 # the MIT open-source license. See the LICENSE and COPYING files for details
 # about your rights to use, modify, and distribute Owl.
 
+INSTALLED_OPENOCD=true
 OPENOCD_LOCATION=/home/twb/Downloads/openocd-0.6.0
 

@@ -19,7 +19,7 @@
 #   1. Build pmstdlib_img.c and pmstdlib_nat.c from PMSTDLIB_SOURCES
 #   2. Build libpmbm.a from all *.c files
 
-PMIMGCREATOR := ../tools/user/pmImgCreator.py
+PMIMGCREATOR := ../tools/owl-tools/pmImgCreator.py
 PMSTDLIB_SOURCES = ../lib/_list.py \
                    ../lib/_dict.py \
                    ../lib/__bi.py \

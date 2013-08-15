@@ -31,5 +31,5 @@ MEMORY
 }
 
 /* Include the common ld script. */
-INCLUDE ld_scripts/libopencm3_stellaris.ld
+INCLUDE ld_scripts/libopencm3_lm3s.ld
 
