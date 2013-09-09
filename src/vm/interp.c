@@ -388,6 +388,24 @@ interpret(const uint8_t returnOnNoThreads)
                     continue;
                 }
 
+                /* ...and in the other direction */
+                else if ((OBJ_GET_TYPE(TOS1) == OBJ_TYPE_INT)
+                         && (OBJ_GET_TYPE(TOS) == OBJ_TYPE_LST))
+                {
+                    t16 = (int16_t)((pPmInt_t)TOS1)->val;
+                    if (t16 < 0)
+                    {
+                        t16 = 0;
+                    }
+
+                    retval = list_replicate((pPmList_t)TOS, t16, 
+                                            (pPmList_t *)&pobj3);
+                    PM_BREAK_IF_ERROR(retval);
+                    SP--;
+                    TOS = pobj3;
+                    continue;
+                }
+
                 /* If it's a tuple replication operation */
                 else if ((OBJ_GET_TYPE(TOS) == OBJ_TYPE_INT)
                          && ((OBJ_GET_TYPE(TOS1) == OBJ_TYPE_TUP)
@@ -406,6 +424,25 @@ interpret(const uint8_t returnOnNoThreads)
                     TOS = pobj3;
                     continue;
                 }
+                
+                /* ...and in the other direction */
+                else if ((OBJ_GET_TYPE(TOS1) == OBJ_TYPE_INT)
+                         && ((OBJ_GET_TYPE(TOS) == OBJ_TYPE_TUP)
+                             || (OBJ_GET_TYPE(TOS) == OBJ_TYPE_PTP)))
+                {
+                    t16 = (int16_t)((pPmInt_t)TOS1)->val;
+                    if (t16 < 0)
+                    {
+                        t16 = 0;
+                    }
+
+                    retval = tuple_replicate((pPmTuple_t)TOS, t16, 
+                                             &pobj3);
+                    PM_BREAK_IF_ERROR(retval);
+                    SP--;
+                    TOS = pobj3;
+                    continue;
+                }
 
                 /* If it's a string replication operation */
                 else if ((OBJ_GET_TYPE(TOS) == OBJ_TYPE_INT)
@@ -418,6 +455,24 @@ interpret(const uint8_t returnOnNoThreads)
                     }
 
                     retval = string_replicate((pPmString_t)TOS1, t16, 
+                                              (pPmString_t *)&pobj3);
+                    PM_BREAK_IF_ERROR(retval);
+                    SP--;
+                    TOS = pobj3;
+                    continue;
+                }
+
+                /* ...and in the other direction */
+                else if ((OBJ_GET_TYPE(TOS1) == OBJ_TYPE_INT)
+                         && (OBJ_GET_TYPE(TOS) == OBJ_TYPE_STR))
+                {
+                    t16 = (int16_t)((pPmInt_t)TOS1)->val;
+                    if (t16 < 0)
+                    {
+                        t16 = 0;
+                    }
+
+                    retval = string_replicate((pPmString_t)TOS, t16, 
                                               (pPmString_t *)&pobj3);
                     PM_BREAK_IF_ERROR(retval);
                     SP--;
