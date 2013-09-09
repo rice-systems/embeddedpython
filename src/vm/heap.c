@@ -572,7 +572,7 @@ heap_gcMarkObj(pPmObj_t pobj)
 
     if (sp < (&__end + 500)) // give enough space to make the call to fatal
     {
-        fatal("garbage collection has overflowed the C stack");
+        except_fatal("garbage collection has overflowed the C stack");
         return retval;
     }
 #endif

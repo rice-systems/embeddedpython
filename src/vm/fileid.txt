@@ -32,7 +32,7 @@ ID    FILE
 0x1D  packedtuple.c
 0x1E  foreign.c
 0x1F  bridge.c
-0x20  fatal.c
+0x20  except.c
 ----- ---------------------------------------
 0x70  RESERVED FOR PLATFORM-SPECIFIC FILES
 0x7F
