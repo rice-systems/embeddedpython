@@ -31,10 +31,9 @@ def sqrt(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = sqrtf(f);
     retval = float_new(f, &pf);
 
@@ -58,10 +57,9 @@ def sin(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = sinf(f);
     retval = float_new(f, &pf);
 
@@ -85,10 +83,9 @@ def cos(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = cosf(f);
     retval = float_new(f, &pf);
 
@@ -112,10 +109,9 @@ def tan(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = tanf(f);
     retval = float_new(f, &pf);
 
@@ -139,10 +135,9 @@ def asin(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = asinf(f);
     retval = float_new(f, &pf);
 
@@ -166,10 +161,9 @@ def acos(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = acosf(f);
     retval = float_new(f, &pf);
 
@@ -193,13 +187,11 @@ def atan(num):
     }
 
     pobj = NATIVE_GET_LOCAL(0);
-    retval = float_getval(pobj, &pf);
+    retval = float_getval(pobj, &f);
     PM_RETURN_IF_ERROR(retval);
 
-    f = ((pPmFloat_t)pf)->val;
     f = atanf(f);
     retval = float_new(f, &pf);
-
     NATIVE_SET_TOS(pf);
     return retval;
     """
@@ -210,7 +202,6 @@ def atan2(y, x):
     pPmObj_t   pobj1;
     pPmObj_t   pobj2;
     pPmObj_t   pf1;
-    pPmObj_t   pf2;
     float      f1, f2;
     PmReturn_t retval = PM_RET_OK;
 
@@ -224,13 +215,11 @@ def atan2(y, x):
     pobj1 = NATIVE_GET_LOCAL(0);
     pobj2 = NATIVE_GET_LOCAL(1);
     
-    retval = float_getval(pobj1, &pf1);
+    retval = float_getval(pobj1, &f1);
     PM_RETURN_IF_ERROR(retval);
-    f1 = ((pPmFloat_t)pf1)->val;
 
-    retval = float_getval(pobj2, &pf2);
+    retval = float_getval(pobj2, &f2);
     PM_RETURN_IF_ERROR(retval);
-    f2 = ((pPmFloat_t)pf2)->val;
 
     f1 = atan2f(f1, f2);
     retval = float_new(f1, &pf1);
@@ -245,7 +234,6 @@ def pow(x, y):
     pPmObj_t   pobj1;
     pPmObj_t   pobj2;
     pPmObj_t   pf1;
-    pPmObj_t   pf2;
     float      f1, f2;
     PmReturn_t retval = PM_RET_OK;
 
@@ -259,13 +247,11 @@ def pow(x, y):
     pobj1 = NATIVE_GET_LOCAL(0);
     pobj2 = NATIVE_GET_LOCAL(1);
 
-    retval = float_getval(pobj1, &pf1);
+    retval = float_getval(pobj1, &f1);
     PM_RETURN_IF_ERROR(retval);
-    f1 = ((pPmFloat_t)pf1)->val;
 
-    retval = float_getval(pobj2, &pf2);
+    retval = float_getval(pobj2, &f2);
     PM_RETURN_IF_ERROR(retval);
-    f2 = ((pPmFloat_t)pf2)->val;
 
     f1 = powf(f1, f2);
     retval = float_new(f1, &pf1);
@@ -283,14 +269,16 @@ def degrees(radians):
 
 def modf(num):
     inum = int(num)
-    return (num - inum, float(inum))
+    return (float(num) - inum, float(inum))
 
 def fabs(num):
     if num < 0:
-        return -num
-    return num
+        return -float(num)
+    return float(num)
 
 def hypot(x, y):
+    x = float(x)
+    y = float(y)
     return sqrt((x * x) + (y * y))
 
 #:mode=c:

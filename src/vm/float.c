@@ -61,6 +61,9 @@ float_fromObj(pPmObj_t pf, pPmObj_t *r_pf)
             case OBJ_TYPE_INT:
                 n = ((pPmInt_t)pf)->val;
                 break;
+            case OBJ_TYPE_BOL:
+                n = ((pPmBoolean_t)pf == (pPmBoolean_t)PM_TRUE);
+                break;
             case OBJ_TYPE_STR:
                 pc = (char const *)&(((pPmString_t)pf)->val);
                 length = ((pPmString_t)pf)->length;
@@ -331,35 +334,31 @@ float_compare(pPmObj_t pobj1, pPmObj_t pobj2)
 
 /*
  * Given an object of a numeric type (OBJ_TYPE_FLT, OBJ_TYPE_INT, or 
- * OBJ_TYPE_BOL) returns a float representation of that object's value.
+ * OBJ_TYPE_BOL), returns (via parameter f) a float representation of that 
+ * object's value.
  * Raises a TypeError if the object passed in was not of numeric type.
  */
 PmReturn_t
-float_getval(pPmObj_t num, pPmObj_t *val) {
-
+float_getval(pPmObj_t num, float *f) {
     PmReturn_t retval = PM_RET_OK;
-    float f;
 
     switch (OBJ_GET_TYPE(num)) {
         case OBJ_TYPE_FLT:    
-            f = ((pPmFloat_t)num)->val;
+            *f = ((pPmFloat_t)num)->val;
             break;
 
         case OBJ_TYPE_INT:
-            f = ((pPmInt_t)num)->val;
+            *f = ((pPmInt_t)num)->val;
             break;
 
         case OBJ_TYPE_BOL:
-            f = (num == PM_TRUE) ? 1 : 0;
+            *f = (num == PM_TRUE) ? 1 : 0;
             break;
 
         default:
             PM_RAISE(retval, PM_RET_EX_TYPE);
             return retval;
     }
-
-    retval = float_new(f, val);
-    PM_RETURN_IF_ERROR(retval);
     return retval;
 }
 

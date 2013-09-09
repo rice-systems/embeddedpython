@@ -19,7 +19,7 @@ all :
 
 ipm :
 	$(MAKE) -C src/platform/desktop all
-	cd src/tools/user && ./owl
+	cd src/tools/owl-tools && ./owl
 
 types :
 	python2.7 $(PMTYPES) src/vm/obj.h > src/lib/types.py

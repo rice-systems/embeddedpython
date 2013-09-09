@@ -14,7 +14,7 @@ PM_LIB_FN = lib$(PM_LIB_ROOT).a
 PM_LIB_PATH = ../../vm/$(PM_LIB_FN)
 PM_USR_SOURCES = main.py build.py
 PM_HEAP_SIZE = 0x2000
-PMIMGCREATOR := ../../tools/user/pmImgCreator.py
+PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
 IPM = true
 DEBUG = true
 

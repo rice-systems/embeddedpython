@@ -76,6 +76,9 @@ int_fromObj(pPmObj_t pf, pPmInt_t *pn, int16_t base)
             case OBJ_TYPE_INT:
                 n = ((pPmInt_t)pf)->val;
                 break;
+            case OBJ_TYPE_BOL:
+                n = (((pPmBoolean_t)pf) == (pPmBoolean_t)PM_TRUE);
+                break;
             case OBJ_TYPE_STR:
                 pc = (char const *)&(((pPmString_t)pf)->val);
                 length = ((pPmString_t)pf)->length;

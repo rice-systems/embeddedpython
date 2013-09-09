@@ -93,10 +93,11 @@ PmReturn_t float_print(pPmObj_t pf);
 
 /*
  * Given an object of a numeric type (OBJ_TYPE_FLT, OBJ_TYPE_INT, or 
- * OBJ_TYPE_BOL) returns a float representation of that object's value.
+ * OBJ_TYPE_BOL), returns (via parameter f) a float representation of that 
+ * object's value.
  * Raises a TypeError if the object passed in was not of numeric type.
  */
-PmReturn_t float_getval(pPmObj_t num, pPmObj_t *val);
+PmReturn_t float_getval(pPmObj_t num, float *f);
 
 #endif /* HAVE_PRINT */
 
