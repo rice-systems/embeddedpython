@@ -2223,10 +2223,12 @@ CALL_FUNC_FOR_ITER:
                 }
 
                 /* If the profiler is running, increment the call count */
+#ifdef HAVE_PROFILER
                 if (profiler_isactive()) 
                 {
                     ((pPmFunc_t)pobj1)->calls++;
                 }
+#endif
 
                 /* If it is a regular func (not native) */
                 if (IS_CODE_OBJ(((pPmFunc_t)pobj1)->f_co))
