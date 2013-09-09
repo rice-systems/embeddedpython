@@ -26,8 +26,9 @@
 extern PmReturn_t (*std_nat_fxn_table[]) (pPmFrame_t *, int8_t, pPmObj_t *);
 extern PmReturn_t (*usr_nat_fxn_table[]) (pPmFrame_t *, int8_t, pPmObj_t *);
 
-
+#ifdef HAVE_PROFILER
 extern bool profiler_locked;
+#endif
 
 #ifdef STACK_PROTECTION
 PmReturn_t
@@ -2715,7 +2716,9 @@ interp_reschedule(void)
 
     // if we fail out of this function with an exception, we hang onto the lock
     // for a while. but, we're pretty hopelessly screwed in that case anyways.
+#ifdef HAVE_PROFILER
     profiler_locked = true;
+#endif
 
     /* If there is a currently running thread, enqueue it on the runnable thread list */
     if (RUNNINGTHREAD != C_NULL)
@@ -2743,7 +2746,11 @@ interp_reschedule(void)
 
     /* Clear flag to indicate a reschedule has occurred */
     interp_setRescheduleFlag(0);
+
+#ifdef HAVE_PROFILER
     profiler_locked = false;
+#endif
+
     return retval;
 }
 
