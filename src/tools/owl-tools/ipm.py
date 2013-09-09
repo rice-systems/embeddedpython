@@ -101,8 +101,6 @@ GROUP_SEPARATOR   = '\x1d'
 RECORD_SEPARATOR  = '\x1e'
 UNIT_SEPARATOR    = '\x1f'
 
-ERROR_FN = os.path.join(os.path.dirname(__file__), "ipm-errors.log")
-
 def tohex(codeimg):
     out = []
     for byte in codeimg:
@@ -134,9 +132,6 @@ class Interactive(cmd.Cmd):
         self.stderr = sys.stderr
         self.last_err = None
         self.disassemble = False
-
-        # open the log file
-        self.logfile = open(ERROR_FN, 'a')
 
         self.reset()
 
@@ -404,11 +399,4 @@ def report_error(err, verbose=False, interactive=None):
 
         if interactive:
             interactive.last_err = err
-            # log the exception
-            time = datetime.datetime.now().isoformat()
-            log_entry =  "/".join((name, c_file, c_line, python_file, \
-                                   python_line, info, time))
-
-            interactive.logfile.write(log_entry + '\n')
-            interactive.logfile.flush()
 
