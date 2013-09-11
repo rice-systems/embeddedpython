@@ -1,0 +1,2 @@
+./programmer/connect.sh -c "gdb_port pipe"
+

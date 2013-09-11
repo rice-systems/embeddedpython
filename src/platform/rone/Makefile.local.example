@@ -1,0 +1,17 @@
+# Directory locations
+
+# Base directory for StellarisWare
+STELLARISBASE    = /Users/twb/tools/stellarisware
+
+# Base directory for libopencm3
+LIBOPENCM3BASE   = /Users/twb/git/libopencm3
+
+# Toolchain (i.e., arm-stellaris-eabi or arm-none-eabi)
+TCHAIN           = arm-none-eabi
+
+# Linker script (i.e., lm3s9b92-rom.ld or lm3s9d92-rom.ld)
+LINKERSCRIPT     = 8962_opencm3.ld
+
+# Microcontroller (i.e., LM3S9B92 or LM3S9D92)
+SUBMDL           = LM3S8962
+
