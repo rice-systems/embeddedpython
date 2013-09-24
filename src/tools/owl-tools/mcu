@@ -1,5 +1,5 @@
 #!/usr/bin/env python
 
-import mcu
+from owl_tools import mcu
 mcu.main()
 

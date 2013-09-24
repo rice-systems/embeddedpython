@@ -1,6 +1,6 @@
 # tools/user/setup.py
 #
-# disttools script to build .exe on Win32 platforms.
+# disttools script to build command line package.
 #
 # Copyright 2013 Rice University.
 #
@@ -11,41 +11,22 @@
 # about your rights to use, modify, and distribute Owl.
 
 from distutils.core import setup
-import py2exe
-import os
-import sys
 
-# Find GTK+ installation path
-__import__('gtk')
-m = sys.modules['gtk']
-gtk_base_path = m.__path__[0]
+with open('README') as readme_file:
+        long_description = readme_file.read()
 
 setup(
-    name = 'owlide',
-    description = 'Owl IDE',
-    version = '0.1',
+    name = 'owl-tools',
+    description = 'Toolchain for the Owl Embedded Python Runtime System',
+    version = '0.2',
+    author = 'Thomas W. Barr',
+    author_email = 'twb@embeddedpython.org',
 
-    windows = [
-                  {
-                      'script': 'owlide',
-                      'icon_resources': [(0, "ide/owl.ico")],
-                  }
-              ],
+    license='LICENSE',
+    long_description=long_description,
 
-    options = {
-                  'py2exe': {
-                      'packages':'encodings',
-                      # Optionally omit gio, gtk.keysyms, and/or rsvg if you're not using them
-                      'includes': 'cairo, pango, pangocairo, atk, gobject, gio'
-                  }
-              },
-
-    data_files=[
-                   'ide/projecttree.glade',
-                   'ide/owl.png',
-                   # If using GTK+'s built in SVG support, uncomment these
-                   os.path.join(gtk_base_path, '..', 'runtime', 'bin', 'gdk-pixbuf-query-loaders.exe'),
-                   os.path.join(gtk_base_path, '..', 'runtime', 'bin', 'libxml2-2.dll'),
-               ]
+    package_dir={'owl_tools':''},
+    packages=['owl_tools'],
+    scripts=['mcu'],
 )
 

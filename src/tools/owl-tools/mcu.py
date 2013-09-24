@@ -1,6 +1,4 @@
-#!/usr/bin/env python2.7
-#
-# tools/user/connection.py
+# tools/user/mcu.py
 #
 # interface for programming and initializing microcontroller
 #

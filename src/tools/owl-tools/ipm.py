@@ -1,5 +1,3 @@
-#!/usr/bin/env python2.7
-#
 # tools/user/ipm.py
 # ipm.py contains routines and objects for interactive prompt
 #
@@ -15,6 +13,8 @@ import pmImgCreator
 import disassemble
 from connection import *
 import toolchain
+
+VERSION = "0.2"
 
 # make sure we're running on a valid version of python
 if not sys.version[:3] in ['2.7']:
@@ -93,8 +93,8 @@ __eFormatters__ = {
 
 COMPILE_FN = "<interactive>"
 COMPILE_MODE = "single"
-INIT_MESSAGE = """Owl Interactive Prompt
-"""
+INIT_MESSAGE = """Owl Interactive Prompt (Toolchain v%s)
+""" % VERSION
 
 REPLY_TERMINATOR  = '\x04'
 GROUP_SEPARATOR   = '\x1d'
