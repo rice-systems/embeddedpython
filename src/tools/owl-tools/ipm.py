@@ -14,7 +14,7 @@ import disassemble
 from connection import *
 import toolchain
 
-VERSION = "0.2"
+VERSION = "0.2.1"
 
 # make sure we're running on a valid version of python
 if not sys.version[:3] in ['2.7']:

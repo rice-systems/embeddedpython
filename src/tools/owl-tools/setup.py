@@ -11,6 +11,18 @@
 # about your rights to use, modify, and distribute Owl.
 
 from distutils.core import setup
+import sys
+
+# Owl absolutely, positively requires 2.7
+if not ((2, 7) <= sys.version_info < (3,)):
+    print "Owl requires Python 2.7. Exiting."
+    sys.exit(1)
+
+# On Linux, let's install the udev drivers for the supported microcontrollers
+if sys.platform.startswith('linux'):
+    data_files = [('/etc/udev/rules.d/', ['drivers/49-stellaris.rules'])]
+else:
+    data_files = ['drivers/49-stellaris.rules']
 
 with open('README') as readme_file:
         long_description = readme_file.read()
@@ -18,7 +30,7 @@ with open('README') as readme_file:
 setup(
     name = 'owl-tools',
     description = 'Toolchain for the Owl Embedded Python Runtime System',
-    version = '0.2',
+    version = '0.2.1',
     author = 'Thomas W. Barr',
     author_email = 'twb@embeddedpython.org',
 
@@ -28,5 +40,6 @@ setup(
     package_dir={'owl_tools':''},
     packages=['owl_tools'],
     scripts=['mcu'],
+    data_files=data_files,
 )
 
