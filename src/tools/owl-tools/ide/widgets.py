@@ -38,8 +38,8 @@ class TextView(gtksourceview2.View):
             textbuffer.set_max_undo_levels(-1)
         elif viewtype == 'console':
             styles = gtksourceview2.StyleSchemeManager()
-            #style = styles.get_scheme('oblivion')
-            #textbuffer.set_style_scheme(style)
+            style = styles.get_scheme('oblivion')
+            textbuffer.set_style_scheme(style)
             textbuffer.set_max_undo_levels(0)
 
         textbuffer.connect('insert-text', self.scroll_to)

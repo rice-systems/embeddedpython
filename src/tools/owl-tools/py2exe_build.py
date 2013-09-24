@@ -43,6 +43,8 @@ setup(
     data_files=[
                    'ide/projecttree.glade',
                    'ide/owl.png',
+                   'ide/owl.ico',
+                   'drivers/owl.inf',
                    # If using GTK+'s built in SVG support, uncomment these
                    os.path.join(gtk_base_path, '..', 'runtime', 'bin', 'gdk-pixbuf-query-loaders.exe'),
                    os.path.join(gtk_base_path, '..', 'runtime', 'bin', 'libxml2-2.dll'),
