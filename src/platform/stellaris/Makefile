@@ -71,10 +71,6 @@ SRC += ffi/types.c
 # List Assembler source files here.
 ASRC = ffi/ffi_arm_asm.S
 
-ifeq ($(TCHAIN), arm-none-eabi)
-#ASRC += lite/start.S lite/lm3s9b92-reset.S lite/stellaris_tempest-vector.S lite/stellaris_tempest-isrs.S
-endif
-
 # Optimization level, can be [0, 1, 2, 3, s]. 
 # 0 = turn off optimization. s = optimize for size.
 # (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
@@ -158,6 +154,10 @@ CFLAGS += -DTARGET_IS_FIRESTORM_RA2
 endif
 
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+# parse the features files
+FEATURES := $(shell ../../tools/build/pmFeatures.py .)
+CFLAGS += $(FEATURES)
 
 # Assembler flags.
 #  -Wa,...:    tell GCC to pass this to the assembler.

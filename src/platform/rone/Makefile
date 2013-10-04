@@ -107,7 +107,10 @@ endif
 
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
-# Assembler flags.
+# parse the features files
+FEATURES := $(shell ../../tools/build/pmFeatures.py .)
+CFLAGS += $(FEATURES)# Assembler flags.
+
 #  -Wa,...:    tell GCC to pass this to the assembler.
 #  -ahlns:     create listing
 #  -g$(DEBUG_FMT): have the assembler create line number information

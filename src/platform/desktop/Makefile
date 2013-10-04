@@ -18,6 +18,9 @@ PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
 IPM = true
 DEBUG = true
 
+# invoke pmFeatures to get list of defines
+FEATURES := $(shell ../../tools/build/pmFeatures.py .)
+
 TARGET = main
 SOURCES = $(TARGET).c plat.c $(TARGET)_nat.c $(TARGET)_img.c
 OBJS = $(SOURCES:.c=.o)
@@ -33,6 +36,7 @@ CFLAGS += -Wnested-externs
 CFLAGS += -Wmissing-prototypes -Wmissing-declarations
 CFLAGS += -fno-strict-aliasing -ffunction-sections -fdata-sections
 CFLAGS += -m32 -I../../vm $(CDEFS) $(CINCS)
+CFLAGS += $(FEATURES)
 
 PYTHON ?= python2.7
 

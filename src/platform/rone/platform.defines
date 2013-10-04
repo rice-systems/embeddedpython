@@ -1,0 +1,6 @@
+# platform defaults on rone
+
++PM_HEAP_SIZE 0xa000
++STACK_PROTECTION
++CORTEX_C_STACK_PROTECT
+

@@ -292,7 +292,6 @@ extern volatile uint32_t pm_timerMsTicks;
 
 
 /* WARNING: The order of the following includes is critical */
-#include "pmfeatures.h"
 #include "obj.h"
 #include "seq.h"
 #include "xrange.h"
