@@ -88,12 +88,6 @@ typedef struct PmVmGlobal_s
 
     /** Generic information for exception */
     char* errInfo;
-    
-    /** Python file name when an error occurs */
-    pPmString_t pyErrFilename;
-
-    /** Python line number when an error occurs */
-    uint16_t pyErrLineNum;
 
     /** Thread list */
     pPmList_t threadList;
@@ -169,7 +163,5 @@ PmReturn_t global_setBuiltins(pPmFunc_t pmod);
  * @return  Return status
  */
 PmReturn_t global_loadBuiltins(void);
-
-PmReturn_t global_setPyLineNum(void);
 
 #endif /* __GLOBAL_H__ */

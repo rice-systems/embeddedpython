@@ -14,7 +14,8 @@ import disassemble
 from connection import *
 import toolchain
 
-VERSION = "0.2.1"
+VERSION = "0.3"
+DEFAULT_VERBOSE = True
 
 # make sure we're running on a valid version of python
 if not sys.version[:3] in ['2.7']:
@@ -147,6 +148,8 @@ class Interactive(cmd.Cmd):
     def do_verbose(self, *args):
         if self.last_err:
             self.report_error(self.last_err, verbose=True)
+        else:
+            print "no saved error to report"
 
     def do_dis(self, *args):
         self.disassemble = not self.disassemble
@@ -154,7 +157,6 @@ class Interactive(cmd.Cmd):
 
     def do_run(self, *args):
         self.run_file(args)
-
 
     def run_file(self, args, profile=None):
         """runs a module from the host to the target device.
@@ -353,50 +355,51 @@ class Interactive(cmd.Cmd):
                 print "Connection lost. Exiting."
                 return
 
-    def report_error(self, err, verbose=False):
+    def report_error(self, err, verbose=DEFAULT_VERBOSE):
         report_error(err, verbose, self)
 
-def report_error(err, verbose=False, interactive=None):
+def report_error(err, verbose=DEFAULT_VERBOSE, interactive=None):
+    if interactive:
+        interactive.last_err = err
+    
+    # decode everything from the exception
     pairs = err.split(RECORD_SEPARATOR)
     unpacked_pairs = [p.split(UNIT_SEPARATOR) for p in pairs]
     decoded_pairs = [(int(key, 16), val) for (key, val) in unpacked_pairs]
 
     exception_report = dict(decoded_pairs)
 
+    error_code = int(exception_report[0], 16)
+    name = __errors__[error_code]
 
+    # this doesn't seem to always be valid. hunh.
+    try:
+        c_file = __fileids__[int(exception_report[2], 16)]
+    except KeyError:
+        c_file = "(unknown fileid %x)" % int(exception_report[2])
+
+    c_line = exception_report[3]
+    info = exception_report[6]
+    traceback = exception_report[7].strip()
+    try:
+        tid = exception_report[8]
+    except KeyError:
+        tid = '(unknown)'
+
+    # see how detailed we're going to be
     if verbose:
-        for (key, val) in decoded_pairs:
-            if key in __eVals__:
-                print >> sys.stderr, __eKeys__[key], ":", __eVals__[key][int(val, 16)]
-            else:
-                print >> sys.stderr, __eKeys__[key], ":", val
+        print >> sys.stderr, "Exception in thread %s detected by %s:%s" % (tid, c_file, c_line)
+        print >> sys.stderr, "Traceback (most recent call last):\n%s" % traceback
     else:
-        error_code = int(exception_report[0], 16)
-        name = __errors__[error_code]
-        c_file = exception_report[2]
-        c_line = exception_report[3]
-        python_file = exception_report[4]
-        python_line = exception_report[5]
-        info = exception_report[6]
-        try:
-            tid = exception_report[8]
-        except KeyError:
-            tid = None
-
-        if error_code in __eFormatters__.keys():
-            print >> sys.stderr, name + (__eFormatters__[error_code] % info)
-        elif info:
-            print >> sys.stderr, "%s: %s" % (name, info)
-        else:
-            print >> sys.stderr, name
-
-
-
-        print >> sys.stderr, "File %s, line %s" % (python_file, python_line)
-
-        if tid != None:
-            print >> sys.stderr, "Thread ID: %s" % tid
-
-        if interactive:
-            interactive.last_err = err
+        print "Error detected:"
+        traceback_lines = traceback.split('\n')
+        print >> sys.stderr, traceback_lines[-1]
+    
+    # everybody gets the actual error code and info
+    if error_code in __eFormatters__.keys():
+        print >> sys.stderr, name + (__eFormatters__[error_code] % info)
+    elif info:
+        print >> sys.stderr, "%s: %s" % (name, info)
+    else:
+        print >> sys.stderr, name
 

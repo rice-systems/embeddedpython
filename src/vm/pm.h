@@ -74,7 +74,6 @@ extern "C" {
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
             gVmGlobal.errObj = PM_NONE; \
             gVmGlobal.errInfo = ""; \
-            global_setPyLineNum(); \
         } while (0)
 #else
 #define PM_RAISE(retexn, exn) \
@@ -83,7 +82,6 @@ extern "C" {
             retexn = (exn); \
             gVmGlobal.errObj = PM_NONE; \
             gVmGlobal.errInfo = ""; \
-            global_setPyLineNum(); \
         } while (0)
 #endif
 
@@ -94,14 +92,12 @@ extern "C" {
             retexn = (exn); \
             gVmGlobal.errFileId = __FILE_ID__; \
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
-            global_setPyLineNum(); \
         } while (0)
 #else
 #define PM_RERAISE(retexn, exn) \
         do \
         { \
             retexn = (exn); \
-            global_setPyLineNum(); \
         } while (0)
 #endif
 
@@ -114,7 +110,6 @@ extern "C" {
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
             gVmGlobal.errObj = obj; \
             gVmGlobal.errInfo = ""; \
-            global_setPyLineNum(); \
         } while (0)
 #else
 #define PM_RAISE_WITH_OBJ(retexn, exn, obj) \
@@ -123,7 +118,6 @@ extern "C" {
             retexn = (exn); \
             gVmGlobal.errObj = obj; \
             gVmGlobal.errInfo = ""; \
-            global_setPyLineNum(); \
         } while (0)
 #endif
 
@@ -136,7 +130,6 @@ extern "C" {
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
             gVmGlobal.errObj = PM_NONE; \
             gVmGlobal.errInfo = info; \
-            global_setPyLineNum(); \
         } while (0)
 #else
 #define PM_RAISE_WITH_INFO(retexn, exn, info) \
@@ -145,7 +138,6 @@ extern "C" {
             retexn = (exn); \
             gVmGlobal.errObj = PM_NONE; \
             gVmGlobal.errInfo = info; \
-            global_setPyLineNum(); \
         } while (0)
 #endif
         
@@ -158,7 +150,6 @@ extern "C" {
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
             gVmGlobal.errObj = obj; \
             gVmGlobal.errInfo = info; \
-            global_setPyLineNum(); \
         } while (0)
 #else
 #define PM_RAISE_WITH_INFO_AND_OBJ(retexn, exn, info, obj) \
@@ -167,7 +158,6 @@ extern "C" {
             retexn = (exn); \
             gVmGlobal.errObj = obj; \
             gVmGlobal.errInfo = info; \
-            global_setPyLineNum(); \
         } while (0)
 #endif
 
@@ -192,7 +182,7 @@ extern "C" {
 
 /** print an error message if argument is not PM_RET_OK */
 #define PM_REPORT_IF_ERROR(retval)   if ((retval) != PM_RET_OK) \
-                                        plat_reportError(retval)
+                                        except_reportError(retval)
 
 #if __DEBUG__
 /** If the boolean expression fails, return the ASSERT error code */
@@ -203,8 +193,7 @@ extern "C" {
         { \
             gVmGlobal.errFileId = __FILE_ID__; \
             gVmGlobal.errLineNum = (uint16_t)__LINE__; \
-            global_setPyLineNum(); \
-            plat_reportError(PM_RET_ASSERT_FAIL); \
+            except_reportError(PM_RET_ASSERT_FAIL); \
             return PM_RET_ASSERT_FAIL; \
         } \
     } \

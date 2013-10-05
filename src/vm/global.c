@@ -53,7 +53,6 @@ global_init(void)
     memset((uint8_t *)&gVmGlobal, '\0', sizeof(PmVmGlobal_t));
 
     /* Set the PyMite release num (for debug and post mortem) */
-    gVmGlobal.pyErrFilename = C_NULL;
     gVmGlobal.errInfo = default_exception;
     
     /* Init zero */
@@ -211,24 +210,3 @@ global_loadBuiltins(void)
     return retval;
 }
 
-PmReturn_t
-global_setPyLineNum(void)
-{
-    PmReturn_t retval = PM_RET_OK;
-    pPmCo_t codeobj = C_NULL;
-    pPmFrame_t top_user_frame;
-    uint16_t line = 0;
-
-    top_user_frame = FP;
-
-    /* Get current code object */
-    codeobj = top_user_frame->fo_func->f_co;
-
-    line = co_getLineno(codeobj, top_user_frame->fo_ip);
-
-    /* Set file name and line number */
-    gVmGlobal.pyErrFilename = co_getFilename(codeobj);
-    gVmGlobal.pyErrLineNum = line;
-
-    return retval;
-}

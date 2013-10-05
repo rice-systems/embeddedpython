@@ -929,10 +929,6 @@ heap_gcMarkRoots(void)
     /* Mark the exception object */
     retval = heap_gcMarkObj(gVmGlobal.errObj);
     PM_RETURN_IF_ERROR(retval);
-    
-    /* Mark the Python file name */
-    retval = heap_gcMarkObj((pPmObj_t)gVmGlobal.pyErrFilename);
-    PM_RETURN_IF_ERROR(retval);
 
 #ifdef HAVE_PROFILER
     /* Mark the profiler array, if we currently have one */

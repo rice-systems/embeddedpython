@@ -30,7 +30,7 @@ with open('README') as readme_file:
 setup(
     name = 'owl-tools',
     description = 'Toolchain for the Owl Embedded Python Runtime System',
-    version = '0.2.1',
+    version = '0.3',
     author = 'Thomas W. Barr',
     author_email = 'twb@embeddedpython.org',
 

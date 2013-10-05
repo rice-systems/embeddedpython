@@ -55,12 +55,6 @@ PmReturn_t plat_putByte(uint8_t b);
 PmReturn_t plat_getMsTicks(uint32_t *r_ticks);
 
 
-/**
- * Reports an exception or other error that caused the thread to quit
- */
-void plat_reportError(PmReturn_t result);
-
-
 #ifdef HAVE_PROFILER
 /**
  * sets profiler frequency
