@@ -9,7 +9,6 @@
  *
  */
 
-
 #undef __FILE_ID__
 #define __FILE_ID__ 0x06
 
@@ -25,7 +24,6 @@
 
 
 #include "pm.h"
-
 
 /** Checks for heap size definition. */
 #ifndef PM_HEAP_SIZE
@@ -118,13 +116,9 @@ typedef struct PmHeapDesc_s
 
 typedef struct PmHeap_s
 {
-    /*
-     * WARNING: Leave 'base' field at the top of struct to increase chance
-     * of alignment when compiler doesn't recognize the aligned attribute
-     * which is specific to GCC
-     */
-    /** Global declaration of heap. */
-    uint8_t base[PM_HEAP_SIZE];
+    /** The heap is defined either as an array in plat_*.c or in the linker
+     * script. */
+    uint8_t *base;
 
     /** Ptr to list of free chunks; sorted smallest to largest. */
     pPmHeapDesc_t pfreelist;
@@ -142,7 +136,7 @@ typedef struct PmHeap_s
 
     /** Boolean to indicate if GC should run automatically */
     uint8_t auto_gc;
-#endif                          /* HAVE_GC */
+#endif /* HAVE_GC */
 
 } PmHeap_t,
  *pPmHeap_t;
@@ -176,12 +170,12 @@ heap_gcPrintFreelist(void)
 {
     pPmHeapDesc_t pchunk = pmHeap.pfreelist;
 
-    lib_printf("DEBUG: pmHeap.avail = %d\n", pmHeap.avail);
+    lib_printf("DEBUG: pmHeap.avail = %d\n", (int)pmHeap.avail);
     lib_printf("DEBUG: freelist:\n");
     while (pchunk != C_NULL)
     {
         lib_printf("DEBUG:     free chunk (%d bytes) @ 0x%0x\n",
-               OBJ_GET_SIZE(pchunk), (int)pchunk);
+               (int)OBJ_GET_SIZE(pchunk), (int)pchunk);
         pchunk = pchunk->next;
     }
 }
@@ -315,6 +309,8 @@ heap_init(void)
 #else
     uint16_t hs;
 #endif
+    
+    pmHeap.base = pmHeapMem;
 
     /* Init heap globals */
     pmHeap.pfreelist = C_NULL;
@@ -346,7 +342,7 @@ heap_init(void)
     }
 
     C_DEBUG_PRINT(VERBOSITY_LOW, "heap_init(), id=%p, s=%u\n",
-                  pmHeap.base, pmHeap.avail);
+                  pmHeap.base, (unsigned int)pmHeap.avail);
 
     return PM_RET_OK;
 }
@@ -420,8 +416,8 @@ heap_getChunkImpl(uint16_t size, uint8_t **r_pchunk)
         OBJ_SET_FREE(pchunk, 0);
 
         C_DEBUG_PRINT(VERBOSITY_HIGH,
-                      "heap_getChunkImpl()exact, id=%p, s=%u\n", pchunk,
-                      OBJ_GET_SIZE(pchunk));
+                      "heap_getChunkImpl()exact, id=%p, s=%u\n", 
+                      pchunk, (unsigned int)OBJ_GET_SIZE(pchunk));
     }
 
     /*
@@ -452,7 +448,7 @@ heap_getChunk(uint16_t requestedsize, uint8_t **r_pchunk)
 #ifdef HAVE_PROFILER
     gVmGlobal.profiler_flags[IN_ALLOC] = true;
     profiler_alloc();
-#endif
+#endif /* HAVE_PROFILER */
 
     /* Ensure size request is valid */
     if (requestedsize > HEAP_MAX_LIVE_CHUNK_SIZE)
@@ -496,7 +492,7 @@ heap_getChunk(uint16_t requestedsize, uint8_t **r_pchunk)
 
 #ifdef HAVE_PROFILER
     gVmGlobal.profiler_flags[IN_ALLOC] = false;
-#endif
+#endif /* HAVE_PROFILER */
 
     return retval;
 }
@@ -509,7 +505,7 @@ heap_freeChunk(pPmObj_t ptr)
     PmReturn_t retval;
 
     C_DEBUG_PRINT(VERBOSITY_HIGH, "heap_freeChunk(), id=%p, s=%u\n",
-                  ptr, OBJ_GET_SIZE(ptr));
+                  ptr, (unsigned int)OBJ_GET_SIZE(ptr));
 
     /* Ensure the chunk falls within the heap */
     C_ASSERT(((uint8_t *)ptr >= pmHeap.base)
@@ -599,15 +595,9 @@ heap_gcMarkObj(pPmObj_t pobj)
     /* Do not follow pointers outside of the heap */
     if (!heap_addrInHeap((uint8_t *) pobj))
     {
-        /*
-        lib_printf("object not in heap: (%p) (0x%08x)", pobj, *((uint32_t *) pobj));
-        obj_print(pobj, 1);
-        lib_printf("\n");
-        */
         return retval;
     }
 
-    /* The object must not already be free */
     C_ASSERT(OBJ_GET_FREE(pobj) == 0);
 
     type = (PmType_t)OBJ_GET_TYPE(pobj);

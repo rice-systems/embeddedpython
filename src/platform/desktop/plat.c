@@ -33,6 +33,8 @@
 
 void plat_sigalrm_handler(int signal);
 
+uint8_t pmHeapMem[PM_HEAP_SIZE];
+
 #ifdef HAVE_FILESYSTEM_IMPORTS
 PmReturn_t
 plat_fs_import(pPmString_t pname, uint8_t const **img)

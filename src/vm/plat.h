@@ -20,6 +20,11 @@
 
 
 /**
+ * The platform must declare somewhere for the VM's heap to live
+ */
+extern uint8_t pmHeapMem[];
+
+/**
  * Initializes the platform as needed by the routines
  * in the platform implementation file.
  */
