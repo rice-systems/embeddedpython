@@ -13,8 +13,8 @@ import pmImgCreator
 import disassemble
 from connection import *
 import toolchain
+from version import VERSION
 
-VERSION = "0.3"
 DEFAULT_VERBOSE = True
 
 # make sure we're running on a valid version of python

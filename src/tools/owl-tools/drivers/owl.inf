@@ -1,3 +1,16 @@
+; tools/user/drivers/owl.inf
+;
+; Windows Driver Installation file for Owl Virtual COM Port
+; 
+; This file tells Windows that devices with our VID and PIDs are handled by the
+; internal USB CDC driver.
+;
+; Copyright 2013 Rice University.
+;
+; This file is part of the Owl Embedded Python System and is provided under
+; the MIT open-source license. See the LICENSE and COPYING files for details
+; about your rights to use, modify, and distribute Owl.
+
 [Version]
 Signature="$Windows NT$"
 Class=Ports
@@ -10,9 +23,11 @@ DriverVer=10/15/2009,1.0.0.0
 
 [DeviceList.NTx86]
 %Owl%=DriverInstall,USB\VID_1cbe&PID_0042
+%Owl%=DriverInstall,USB\VID_0483&PID_5740
 
 [DeviceList.NTamd64]
 %Owl%=DriverInstall,USB\VID_1cbe&PID_0042
+%Owl%=DriverInstall,USB\VID_0483&PID_5740
 
 [DriverInstall]
 include=mdmcpq.inf

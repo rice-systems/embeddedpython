@@ -1,6 +1,6 @@
-# tools/user/drivers/49-stellaris.rules
+# tools/user/drivers/48-stm.rules
 #
-# Linux udev rules for Stellaris Virtual COM Port
+# Linux udev rules for STM32 Virtual COM Port
 #
 # Copyright 2013 Rice University.
 #
@@ -9,7 +9,8 @@
 # about your rights to use, modify, and distribute Owl.
 
 # JTAG/SWI interface
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="bcda", MODE:="0666"
+SUBSYSTEM=="usb",ATTR{idVendor}=="0483",ATTR{idProduct}=="3748",MODE:="0666"
 
 # USB Virtual COM Port
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="1cbe", ATTRS{idProduct}=="0042", MODE:="0666", SYMLINK+="mcu"
+SUBSYSTEM=="usb",ATTR{idVendor}=="0483",ATTR{idProduct}=="5740",MODE="0666", SYMLINK+="mcu"
+

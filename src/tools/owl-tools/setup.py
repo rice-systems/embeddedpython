@@ -12,6 +12,7 @@
 
 from distutils.core import setup
 import sys
+from version import VERSION
 
 # Owl absolutely, positively requires 2.7
 if not ((2, 7) <= sys.version_info < (3,)):
@@ -20,9 +21,9 @@ if not ((2, 7) <= sys.version_info < (3,)):
 
 # On Linux, let's install the udev drivers for the supported microcontrollers
 if sys.platform.startswith('linux'):
-    data_files = [('/etc/udev/rules.d/', ['drivers/49-stellaris.rules'])]
+    data_files = [('/etc/udev/rules.d/', ['drivers/49-stellaris.rules', 'drivers/48-stm.rules'])]
 else:
-    data_files = ['drivers/49-stellaris.rules']
+    data_files = ['drivers/49-stellaris.rules', 'drivers/48-stm.rules']
 
 with open('README') as readme_file:
         long_description = readme_file.read()
@@ -30,7 +31,7 @@ with open('README') as readme_file:
 setup(
     name = 'owl-tools',
     description = 'Toolchain for the Owl Embedded Python Runtime System',
-    version = '0.3',
+    version = VERSION,
     author = 'Thomas W. Barr',
     author_email = 'twb@embeddedpython.org',
 
