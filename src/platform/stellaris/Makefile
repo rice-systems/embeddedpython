@@ -45,7 +45,7 @@ PM_USR_SOURCES +=  build.py
 ifneq ($(SUBMDL), TM4C123GH6PGE)
     PM_USR_SOURCES += autowrapped/sysctl.py autowrapped/gpio.py autowrapped/pwm.py autowrapped/interrupt.py
     PM_USR_SOURCES += lib/stack.py autowrapped/uart.py lib/simplegpio.py
-    PM_USR_SOURCES += lib/sd.py autowrapped/adc.py lib/spi.py autowrapped/i2c.py lib/uart_int.py lib/timer.py
+    PM_USR_SOURCES += autowrapped/adc.py lib/spi.py autowrapped/i2c.py lib/uart_int.py lib/timer.py
 endif
 
 #PM_USR_SOURCES += ip/ip.py
@@ -69,11 +69,6 @@ TARGET = main
 # List C source files here. 
 SRC  = $(TARGET).c $(TARGET)_nat.c $(TARGET)_img.c
 SRC += interrupts.c plat_9x92.c usb/plat_usb.c
-
-ifneq ($(SUBMDL), TM4C123GH6PGE)
-    SRC += lib/sd.c
-endif
-
 
 # include the FFI source
 SRC += ffi/ffi_arm.c
