@@ -1,0 +1,14 @@
+# Directory locations
+
+# Base directory for StellarisWare
+OPENCM3BASE    = /home/tbarr/libopencm3
+
+# Toolchain (i.e., arm-stellaris-eabi or arm-none-eabi)
+TCHAIN           = arm-none-eabi
+
+# Linker script (i.e., lm3s9b92-rom.ld or lm3s9d92-rom.ld)
+LINKERSCRIPT     = stm32f4-discovery.ld
+
+# Microcontroller (i.e., LM3S9B92 or LM3S9D92)
+SUBMDL           = STM32F4
+

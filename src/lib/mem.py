@@ -214,3 +214,85 @@ def get_object(addr):
     return retval;
     """
     pass
+
+def peek():
+    r'''__NATIVE__
+    PmReturn_t retval = PM_RET_OK;
+    pPmObj_t p0;
+    uint32_t *addr;
+
+    pPmInt_t pret;
+    uint32_t cret;
+
+    /* If wrong number of args, raise TypeError */
+    if (NATIVE_GET_NUM_ARGS() != 1)
+    {
+        PM_RAISE_WITH_INFO(retval, PM_RET_EX_TYPE, "incorrect number of arguments");
+        return retval;
+    }
+
+    p0 = NATIVE_GET_LOCAL(0);
+
+    /* If arg is not an int, raise TypeError */
+    if (OBJ_GET_TYPE(p0) != OBJ_TYPE_INT)
+    {
+        PM_RAISE_WITH_INFO(retval, PM_RET_EX_TYPE, "expected int");
+        return retval;
+    }
+
+    addr = (uint32_t *) (((pPmInt_t)p0)->val);
+
+    cret = *addr;
+
+    int_new(cret, &pret);
+    NATIVE_SET_TOS((pPmObj_t) pret);
+
+    return retval;
+    '''
+    pass
+
+    
+def poke():
+    r'''__NATIVE__
+    PmReturn_t retval = PM_RET_OK;
+    pPmObj_t p0, p1;
+    uint32_t *addr;
+    uint32_t val;
+
+    /* If wrong number of args, raise TypeError */
+    if (NATIVE_GET_NUM_ARGS() != 2)
+    {
+        PM_RAISE_WITH_INFO(retval, PM_RET_EX_TYPE, "incorrect number of arguments");
+        return retval;
+    }
+
+    p0 = NATIVE_GET_LOCAL(0);
+
+    /* If arg is not an int, raise TypeError */
+    if (OBJ_GET_TYPE(p0) != OBJ_TYPE_INT)
+    {
+        PM_RAISE_WITH_INFO(retval, PM_RET_EX_TYPE, "expected int");
+        return retval;
+    }
+
+    addr = (uint32_t *) (((pPmInt_t)p0)->val);
+
+    p1 = NATIVE_GET_LOCAL(1);
+
+    /* If arg is not an int, raise TypeError */
+    if (OBJ_GET_TYPE(p1) != OBJ_TYPE_INT)
+    {
+        PM_RAISE_WITH_INFO(retval, PM_RET_EX_TYPE, "expected int");
+        return retval;
+    }
+
+    val = ((pPmInt_t)p1)->val;
+
+    *addr = val;
+
+    NATIVE_SET_TOS(PM_NONE);
+
+    return retval;
+    '''
+    pass
+

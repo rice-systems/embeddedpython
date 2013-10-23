@@ -1,0 +1,6 @@
+# platform defaults on stm32f4
+
++PM_HEAP_SIZE 0x1fff8
++STACK_PROTECTION
++CORTEX_C_STACK_PROTECT
+
