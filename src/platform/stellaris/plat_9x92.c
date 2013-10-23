@@ -16,32 +16,43 @@
 
 /** PyMite platform-specific routines for Stellaris Cortex-M3 target */
 
-#if SUBMDL == LM3S9B92
+#include "pm.h"
+#include "stellaris.h"
+
+#ifdef PART_LM3S9B92
 #include "inc/lm3s9b92.h"
-#elif SUBMDL == LM3S9D92
+#include "inc/hw_ints.h"
+#endif
+
+#ifdef PART_LM3S9D92
 #include "inc/lm3s9d92.h"
-#else
-#error unsupported submdl in plat_9x92.c
+#include "inc/hw_ints.h"
+#endif
+
+#ifdef PART_TM4C123GH6PGE
+#include "inc/tm4c123gh6pge.h"
 #endif
 
 #include "inc/hw_types.h"
-#include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_sysctl.h"
+#include "inc/hw_gpio.h"
+#include "driverlib/i2c.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/systick.h"
 #include "driverlib/gpio.h"
+#include "driverlib/pin_map.h"
 #include "driverlib/rom.h"
 #include "driverlib/rom_map.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/timer.h"
+#include "driverlib/uart.h"
 #include "usblib/usblib.h"
 #include "usblib/usbcdc.h"
 #include "usblib/device/usbdevice.h"
 #include "usblib/device/usbdcdc.h"
 #include "usb/plat_usb.h"
-#include "pm.h"
-#include "stellaris.h"
+
 
 #define CALLBACK_MS 10
 #define RESET_VAL 1000000000ul
@@ -49,6 +60,7 @@
 unsigned int ticks = 0;
 
 void ticker_callback(void);
+unsigned long plat_timer_stop_and_read(void);
 
 bool usb_connected = false;
 
@@ -83,7 +95,7 @@ plat_timer_stop(void)
     MAP_TimerDisable(TIMER0_BASE, TIMER_A);
     MAP_TimerLoadSet(TIMER0_BASE, TIMER_A, RESET_VAL);
 
-    lib_printf("timed region: %d\n", time);
+    lib_printf("timed region: %d\n", (int)time);
 }
 
 unsigned long
@@ -134,8 +146,28 @@ plat_preinit(void)
 
     // Enable the GPIO pin for the LED as a digital output.
     MAP_GPIOPinTypeGPIOOutput(LED_GPIO_PORT, LED_GPIO_PIN);
-    
-    // Enable the GPIO pin for the USB select and host power.
+
+    // The LM4F GPIO pins need to be properly set up for USB
+#ifdef PART_TM4C123GH6PGE
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOG);
+    GPIOPinConfigure(GPIO_PG4_USB0EPEN);
+    GPIOPinTypeUSBDigital(GPIO_PORTG_BASE, GPIO_PIN_4);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOL);
+    GPIOPinTypeUSBAnalog(GPIO_PORTL_BASE, GPIO_PIN_6 | GPIO_PIN_7);
+    GPIOPinTypeUSBAnalog(GPIO_PORTB_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+
+    // Erratum workaround for silicon revision A1.  VBUS must have pull-down.
+    if(CLASS_IS_BLIZZARD && REVISION_IS_A1)
+    {
+        HWREG(GPIO_PORTB_BASE + GPIO_O_PDR) |= GPIO_PIN_1;
+    }
+#endif
+
+#ifdef PART_LM3S9B92
+    // the LM3S9B92 EvalBot has a USB switch to select the port (host or
+    // device) connected to the Stellaris USB. Turn it on and connect it to
+    // device.
     MAP_GPIOPinTypeGPIOOutput(USBSEL_GPIO_PORT, USBSEL_GPIO_PIN);
     MAP_GPIOPinTypeGPIOOutput(USBPOW_GPIO_PORT, USBPOW_GPIO_PIN);
 
@@ -145,6 +177,7 @@ plat_preinit(void)
     // Power host power and enable device mode on switch
     MAP_GPIOPinWrite(USBSEL_GPIO_PORT, USBSEL_GPIO_PIN, USBSEL_GPIO_PIN);
     MAP_GPIOPinWrite(USBPOW_GPIO_PORT, USBPOW_GPIO_PIN, USBPOW_GPIO_PIN);
+#endif // PART_LM3S9B92
 
     // Set the clocking to run from the PLL at 50MHz
     MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN |
@@ -152,7 +185,15 @@ plat_preinit(void)
 
     // set up the timer /
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+
+#ifdef PART_TM4C123GH6PGE
+    // for TivaWare
+    MAP_TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);
+#else
+    // for legacy Stellarisware
     MAP_TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_OS);
+#endif
+
     MAP_TimerLoadSet(TIMER0_BASE, TIMER_A, RESET_VAL);
     MAP_TimerIntDisable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 
@@ -171,7 +212,14 @@ plat_preinit(void)
     
 #ifdef HAVE_PROFILER
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
-    MAP_TimerConfigure(TIMER1_BASE, TIMER_CFG_32_BIT_PER);
+    
+#ifdef PART_TM4C123GH6PGE
+    // for TivaWare
+    MAP_TimerConfigure(TIMER1_BASE, TIMER_CFG_ONE_SHOT);
+#else
+    // for legacy Stellarisware
+    MAP_TimerConfigure(TIMER1_BASE, TIMER_CFG_32_BIT_OS);
+#endif
 
     // the default load value isn't something sane.
     MAP_TimerLoadSet(TIMER1_BASE, TIMER_A, SysCtlClockGet());
@@ -245,10 +293,10 @@ plat_getByte(uint8_t *b)
 uint8_t
 plat_isDataAvail(void)
 {
-    tBoolean chars_avail;
-    chars_avail = USBBufferDataAvailable(&g_usb_recv_buffer);
+    // avoid doing this driver call with an explicit temp variable becuase its
+    // return type changes from StellarisWare to TivaWare
 
-    return chars_avail ? 1 : 0;
+    return USBBufferDataAvailable(&g_usb_recv_buffer) ? 1 : 0;
 }  
 
 

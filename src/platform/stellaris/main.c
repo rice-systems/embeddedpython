@@ -10,25 +10,29 @@
  *
  */
 
-#include "inc/hw_types.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_gpio.h"
+#include "pm.h"
+#include "string.h"
+#include "plat.h"
+
 #ifdef PART_LM3S9B92
 #include "inc/lm3s9b92.h"
 #endif
+
 #ifdef PART_LM3S9D92
 #include "inc/lm3s9d92.h"
 #endif
-#ifdef PART_LM3S8962
-#include "inc/lm3s8962.h"
+
+#ifdef PART_TM4C123GH6PGE
+#include "inc/tm4c123gh6pge.h"
 #endif
+
+#include "inc/hw_types.h"
+#include "inc/hw_memmap.h"
+#include "inc/hw_gpio.h"
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/rom.h"
 #include "driverlib/rom_map.h"
-#include "pm.h"
-#include "string.h"
-#include "plat.h"
 #include "stellaris.h"
 
 #define BLOCK_SIZE 1024

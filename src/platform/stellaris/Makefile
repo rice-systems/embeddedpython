@@ -40,10 +40,17 @@ PM_LIB_FN = lib$(PM_LIB_ROOT).a
 PM_LIB_PATH = ../../vm/$(PM_LIB_FN)
 PM_USR_SOURCES = main.py  
 PM_USR_SOURCES +=  build.py
-PM_USR_SOURCES += autowrapped/sysctl.py autowrapped/gpio.py autowrapped/pwm.py
-PM_USR_SOURCES += autowrapped/adc.py autowrapped/i2c.py autowrapped/qei.py
-PM_USR_SOURCES += autowrapped/uart.py
+
+# TivaWare will require its own copy of the peripheral library
+ifneq ($(SUBMDL), TM4C123GH6PGE)
+    PM_USR_SOURCES += autowrapped/sysctl.py autowrapped/gpio.py autowrapped/pwm.py autowrapped/interrupt.py
+    PM_USR_SOURCES += lib/stack.py autowrapped/uart.py lib/simplegpio.py
+    PM_USR_SOURCES += lib/sd.py autowrapped/adc.py lib/spi.py autowrapped/i2c.py lib/uart_int.py lib/timer.py
+endif
+
+#PM_USR_SOURCES += ip/ip.py
 PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
+PMBUILDINFO := ../../tools/build/pmBuildInfo.py
 IPM := true
 COMPILER = gcc
 
@@ -62,6 +69,11 @@ TARGET = main
 # List C source files here. 
 SRC  = $(TARGET).c $(TARGET)_nat.c $(TARGET)_img.c
 SRC += interrupts.c plat_9x92.c usb/plat_usb.c
+
+ifneq ($(SUBMDL), TM4C123GH6PGE)
+    SRC += lib/sd.c
+endif
+
 
 # include the FFI source
 SRC += ffi/ffi_arm.c
@@ -87,16 +99,13 @@ DEBUG_FMT = dwarf-2
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
-EXTRAINCDIRS = $(abspath .) ../../vm $(STELLARISBASE) usb ip lib ip/uip $(abspath .)/ffi
+EXTRAINCDIRS = $(abspath .) ../../vm $(STELLARISBASE) usb lib $(abspath .)/ffi
 
 # List any extra directories to look for library files here.
 #     Each directory must be seperated by a space.
 EXTRA_LIBDIRS  = . ../../vm 
-EXTRA_LIBDIRS += $(STELLARISBASE)/driverlib/gcc-cm3
-EXTRA_LIBDIRS += $(STELLARISBASE)/usblib/gcc-cm3
-ifeq ($(TCHAIN), arm-none-eabi)
+
 EXTRA_LIBDIRS += $(LIBOPENCM3BASE)/lib
-endif
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -174,18 +183,29 @@ endif
 #    Each library-name must be seperated by a space.
 #    To add libxyz.a, libabc.a and libefsl.a: 
 #    EXTRA_LIBS = xyz abc efsl
-EXTRA_LIBS = $(PM_LIB_ROOT) 
-EXTRA_LIBS += usb-cm3
-EXTRA_LIBS += driver-cm3
-ifeq ($(TCHAIN), arm-none-eabi)
-EXTRA_LIBS += opencm3_lm3s
+EXTRA_LIBS = $(PM_LIB_ROOT)
+
+# Tivaware drops the -cm3 suffix
+ifeq ($(SUBMDL), TM4C123GH6PGE)
+    EXTRA_LIBDIRS += $(STELLARISBASE)/driverlib/gcc
+    EXTRA_LIBDIRS += $(STELLARISBASE)/usblib/gcc
+    EXTRA_LIBS += usb
+    EXTRA_LIBS += driver
+else
+    EXTRA_LIBDIRS += $(STELLARISBASE)/driverlib/gcc-cm3
+    EXTRA_LIBDIRS += $(STELLARISBASE)/usblib/gcc-cm3
+    EXTRA_LIBS += usb-cm3
+    EXTRA_LIBS += driver-cm3
 endif
+
+EXTRA_LIBS += opencm3_lm3s
 EXTRA_LIBS += m
 
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
+LDFLAGS = -Wl,-Map=$(TARGET).map,--cref
 LDFLAGS = -Wl,-Map=$(TARGET).map,--cref,--gc-sections
 LDFLAGS += -nostartfiles 
 LDFLAGS += -lc -lgcc 
@@ -313,4 +333,4 @@ clean_list :
 build elf hex bin lss sym clean clean_list program pmvm zip
 
 # Exports for VM build
-export CC OBJCOPY NM CFLAGS ALL_CFLAGS AR IPM PM_LIB_FN COMPILER
+export CC OBJCOPY NM CFLAGS ALL_CFLAGS AR IPM PM_LIB_FN COMPILER LIB_STYLE

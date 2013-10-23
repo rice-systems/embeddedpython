@@ -10,6 +10,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <string.h>
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -118,7 +119,11 @@ const unsigned char * const g_pStringDescriptors[] =
 tUSBDCDCDevice g_sCDCDevice =
 {
 
+#ifdef PART_TM4C123GH6PGE
+    USB_VID_TI_1CBE, //USB_VID_YOUR_VENDOR_ID,
+#else
     USB_VID_STELLARIS, //USB_VID_YOUR_VENDOR_ID,
+#endif
     0x42, //USB_PID_YOUR_PRODUCT_ID,
     0, //POWER_CONSUMPTION_mA,
     USB_CONF_ATTR_SELF_PWR, // bmAttributes

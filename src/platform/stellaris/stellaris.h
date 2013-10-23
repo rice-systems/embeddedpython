@@ -20,16 +20,27 @@ void       panic(int blinks);
 // for stack painting
 #define STACK_COLOR 42
 
-/* LED Port/Pin */
-#define LED_SYSCTL_PORT    SYSCTL_PERIPH_GPIOD
-#define LED_GPIO_PORT      GPIO_PORTD_BASE
-#define LED_GPIO_PIN       GPIO_PIN_0
-
-/* Switch Port/Pin */
-#define SWITCH_SYSCTL_PORT SYSCTL_PERIPH_GPIOB
-#define SWITCH_GPIO_PORT   GPIO_PORTB_BASE
-#define SWITCH_GPIO_PIN    GPIO_PIN_4
-
+#ifdef PART_LM4F232H5QD
+  /* LED Port/Pin */
+  #define LED_SYSCTL_PORT    SYSCTL_PERIPH_GPIOG
+  #define LED_GPIO_PORT      GPIO_PORTG_BASE
+  #define LED_GPIO_PIN       GPIO_PIN_2
+  
+  /* Switch Port/Pin */
+  #define SWITCH_SYSCTL_PORT SYSCTL_PERIPH_GPIOM
+  #define SWITCH_GPIO_PORT   GPIO_PORTM_BASE
+  #define SWITCH_GPIO_PIN    GPIO_PIN_4
+#else
+  /* LED Port/Pin */
+  #define LED_SYSCTL_PORT    SYSCTL_PERIPH_GPIOD
+  #define LED_GPIO_PORT      GPIO_PORTD_BASE
+  #define LED_GPIO_PIN       GPIO_PIN_0
+  
+  /* Switch Port/Pin */
+  #define SWITCH_SYSCTL_PORT SYSCTL_PERIPH_GPIOB
+  #define SWITCH_GPIO_PORT   GPIO_PORTB_BASE
+  #define SWITCH_GPIO_PIN    GPIO_PIN_4
+#endif
 
 /* USB select Port/Pin */
 #define USBSEL_SYSCTL_PORT SYSCTL_PERIPH_GPIOB
