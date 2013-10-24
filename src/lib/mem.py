@@ -251,6 +251,18 @@ def peek():
     '''
     pass
 
+def peek_bit(addr, bit):
+    return True if peek(addr) & bit else False
+
+def poke_bit(addr, bit, value):
+    old = peek(addr)
+
+    new = old | bit
+    
+    if not value:
+        new -= bit
+
+    poke(addr, new)
     
 def poke():
     r'''__NATIVE__
