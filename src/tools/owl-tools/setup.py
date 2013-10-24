@@ -34,9 +34,22 @@ setup(
     version = VERSION,
     author = 'Thomas W. Barr',
     author_email = 'twb@embeddedpython.org',
+    url = "http://embeddedpython.org/",
 
-    license='LICENSE',
+    license='MIT License',
     long_description=long_description,
+
+    install_requires = ['pyserial'],
+
+    classifiers=[
+                 "Development Status :: 4 - Beta",
+                 "Environment :: Console",
+                 "Intended Audience :: Developers",
+                 "License :: OSI Approved :: MIT License",
+                 "Natural Language :: English",
+                 "Operating System :: OS Independent",
+                 "Programming Language :: Python :: 2.7",
+                 "Topic :: Software Development :: Embedded Systems"],
 
     package_dir={'owl_tools':''},
     packages=['owl_tools'],
