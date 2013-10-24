@@ -1,4 +1,4 @@
-time = '23Oct13, 03:05PM'
+time = '23Oct13, 03:27PM'
 user = 'twb'
 version = '0.4-pre'
 platform = 'STM32'

@@ -13,9 +13,8 @@ PLATFORM := $(notdir $(CURDIR))
 PM_LIB_ROOT = pmvm_$(PLATFORM)
 PM_LIB_FN = lib$(PM_LIB_ROOT).a
 PM_LIB_PATH = ../../vm/$(PM_LIB_FN)
-PM_USR_SOURCES = main.py build.py # wrapped/gpio.py wrapped/spi.py
+PM_USR_SOURCES = main.py build.py autowrapped/gpio.py autowrapped/spi.py autowrapped/rcc.py 
 PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
-PMBUILDINFO := ../../tools/build/release_buildinfo.py
 IPM := true
 COMPILER = arm-none-eabi
 
@@ -36,6 +35,7 @@ SRC  = $(TARGET).c $(TARGET)_nat.c $(TARGET)_img.c
 SRC += plat_stm32f4.c
 SRC += interrupts.c
 SRC += usb/cdcacm.c
+SRC += intermd_func/rcc_intermd_func.c
 
 # Optimization level, can be [0, 1, 2, 3, s]. 
 # 0 = turn off optimization. s = optimize for size.
@@ -53,11 +53,13 @@ DEBUG_FMT = dwarf-2
 #     Each directory must be seperated by a space.
 EXTRAINCDIRS = $(abspath .) ../../vm $(OPENCM3BASE)/include/libopencm3/stm32
 EXTRAINCDIRS += $(OPENCM3BASE)/include/
+EXTRAINCDIRS += intermd_func/
 
 # List any extra directories to look for library files here.
 #     Each directory must be seperated by a space.
 EXTRA_LIBDIRS  = . ../../vm 
 EXTRA_LIBDIRS += $(OPENCM3BASE)/lib/
+
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C

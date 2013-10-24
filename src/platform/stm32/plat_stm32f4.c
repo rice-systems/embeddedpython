@@ -83,8 +83,6 @@ plat_preinit(void)
     rcc_peripheral_enable_clock(&RCC_AHB2ENR, RCC_AHB1ENR_OTGHSEN);
     rcc_peripheral_enable_clock(&RCC_AHB2ENR, RCC_AHB2ENR_OTGFSEN);
 
-    rcc_peripheral_enable_clock(&RCC_APB2ENR, RCC_APB2ENR_SPI1EN);
-    
     /*Enable to LED port and enable the LED pins as digital outputs*/
     gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, 
                     GPIO12 | GPIO13 | GPIO14 | GPIO15);
