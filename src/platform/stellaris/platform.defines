@@ -1,0 +1,7 @@
+# platform defaults on stellaris
+
++PM_HEAP_SIZE 0x14000
++STACK_PROTECTION
++CORTEX_C_STACK_PROTECT
++HAVE_PROFILER
++HAVE_FFI
