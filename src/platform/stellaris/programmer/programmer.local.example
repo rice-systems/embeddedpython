@@ -9,5 +9,6 @@
 # about your rights to use, modify, and distribute Owl.
 
 INSTALLED_OPENOCD=true
+TIVA_ICDI=true
 OPENOCD_LOCATION=/home/twb/Downloads/openocd-0.6.0
 

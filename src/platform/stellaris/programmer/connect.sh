@@ -10,8 +10,20 @@
 
 source programmer/programmer.local
 
-if $INSTALLED_OPENOCD; then
-	openocd -f interface/luminary-icdi.cfg -f target/stellaris.cfg -f programmer/flash.cfg "$@"
+if $TIVA_ICDI; then
+
+	if $INSTALLED_OPENOCD; then
+		openocd -f interface/ti-icdi.cfg -f target/stellaris_icdi.cfg -f programmer/flash.cfg "$@"
+	else
+		$OPENOCD_LOCATION/src/openocd -s $OPENOCD_LOCATION/tcl -f interface/ti-icdi.cfg -f target/stellaris.cfg -f programmer/flash.cfg "$@"
+	fi
+
 else
-	$OPENOCD_LOCATION/src/openocd -s $OPENOCD_LOCATION/tcl -f interface/luminary-icdi.cfg -f target/stellaris.cfg -f programmer/flash.cfg "$@"
+
+	if $INSTALLED_OPENOCD; then
+		openocd -f interface/luminary-icdi.cfg -f target/stellaris.cfg -f programmer/flash.cfg "$@"
+	else
+		$OPENOCD_LOCATION/src/openocd -s $OPENOCD_LOCATION/tcl -f interface/luminary-icdi.cfg -f target/stellaris.cfg -f programmer/flash.cfg "$@"
+	fi
+
 fi

@@ -41,8 +41,15 @@ PM_LIB_PATH = ../../vm/$(PM_LIB_FN)
 PM_USR_SOURCES = main.py  
 PM_USR_SOURCES +=  build.py
 
+# are we using TivaWare or StellarisWare?
+ifneq (,$(findstring TM4C,$(SUBMDL)))
+    LIB_TYPE = TIVAWARE
+else
+    LIB_TYPE = STELLARISWARE
+endif
+
 # TivaWare will require its own copy of the peripheral library
-ifneq ($(SUBMDL), TM4C123GH6PGE)
+ifeq ($(LIB_TYPE), STELLARISWARE)
     PM_USR_SOURCES += autowrapped/sysctl.py autowrapped/gpio.py autowrapped/pwm.py autowrapped/interrupt.py
     PM_USR_SOURCES += lib/stack.py autowrapped/uart.py lib/simplegpio.py
     PM_USR_SOURCES += autowrapped/adc.py lib/spi.py autowrapped/i2c.py lib/uart_int.py lib/timer.py
@@ -157,6 +164,10 @@ ifeq ($(SUBMDL), LM3S9D92)
 CFLAGS += -DTARGET_IS_FIRESTORM_RA2
 endif
 
+ifeq ($(SUBMDL), TM4C129XNCZAD)
+CFLAGS += -DTARGET_IS_SNOWFLAKE_RA0
+endif
+
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 # parse the features files
@@ -181,7 +192,7 @@ endif
 EXTRA_LIBS = $(PM_LIB_ROOT)
 
 # Tivaware drops the -cm3 suffix
-ifeq ($(SUBMDL), TM4C123GH6PGE)
+ifeq ($(LIB_TYPE), TIVAWARE)
     EXTRA_LIBDIRS += $(STELLARISBASE)/driverlib/gcc
     EXTRA_LIBDIRS += $(STELLARISBASE)/usblib/gcc
     EXTRA_LIBS += usb

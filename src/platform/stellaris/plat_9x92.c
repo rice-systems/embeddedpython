@@ -1,6 +1,7 @@
 /* platform/stellaris/plat_9x92.c
  *
- * Supports the TI Stellaris LM3S9x9x series parts.
+ * Supports the TI Stellaris/Tiva C series parts. "9x92" is increasingly a
+ * misnomer here.
  *
  * Copyright 2012 Rice University.
  *
@@ -18,20 +19,6 @@
 
 #include "pm.h"
 #include "stellaris.h"
-
-#ifdef PART_LM3S9B92
-#include "inc/lm3s9b92.h"
-#include "inc/hw_ints.h"
-#endif
-
-#ifdef PART_LM3S9D92
-#include "inc/lm3s9d92.h"
-#include "inc/hw_ints.h"
-#endif
-
-#ifdef PART_TM4C123GH6PGE
-#include "inc/tm4c123gh6pge.h"
-#endif
 
 #include "inc/hw_types.h"
 #include "inc/hw_memmap.h"
@@ -129,7 +116,21 @@ PmReturn_t
 plat_preinit(void)
 {
     volatile unsigned long ulLoop;
+    uint32_t ui32SysClock;
 
+    /* If we don't run the Snowflake part fast enough, USB never wakes up */
+#ifdef PART_TM4C129XNCZAD
+    // Run from the PLL at 120 MHz.
+    ui32SysClock = SysCtlClockFreqSet((SYSCTL_XTAL_25MHZ |
+                                       SYSCTL_OSC_MAIN |
+                                       SYSCTL_USE_PLL |
+                                       SYSCTL_CFG_VCO_480), 120000000);
+#else
+    // Set the clocking to run from the PLL at 50MHz
+    ui32SysClock = MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL |
+                                      SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+#endif
+    
     // Enable the GPIO ports.
     MAP_SysCtlPeripheralEnable(LED_SYSCTL_PORT);
     MAP_SysCtlPeripheralEnable(SWITCH_SYSCTL_PORT);
@@ -147,7 +148,7 @@ plat_preinit(void)
     // Enable the GPIO pin for the LED as a digital output.
     MAP_GPIOPinTypeGPIOOutput(LED_GPIO_PORT, LED_GPIO_PIN);
 
-    // The LM4F GPIO pins need to be properly set up for USB
+    // The LM4F GPIO pins need to be properly set up for USB depending on part
 #ifdef PART_TM4C123GH6PGE
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOG);
@@ -156,12 +157,24 @@ plat_preinit(void)
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOL);
     GPIOPinTypeUSBAnalog(GPIO_PORTL_BASE, GPIO_PIN_6 | GPIO_PIN_7);
     GPIOPinTypeUSBAnalog(GPIO_PORTB_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+#endif
 
-    // Erratum workaround for silicon revision A1.  VBUS must have pull-down.
-    if(CLASS_IS_BLIZZARD && REVISION_IS_A1)
-    {
-        HWREG(GPIO_PORTB_BASE + GPIO_O_PDR) |= GPIO_PIN_1;
-    }
+#ifdef PART_TM4C129XNCZAD
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOL);
+
+    /* Unlock the GPIO so we can switch the mode properly */
+    HWREG(GPIO_PORTD_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+    HWREG(GPIO_PORTD_BASE + GPIO_O_CR) = 0xff;
+    MAP_GPIOPinConfigure(GPIO_PD6_USB0EPEN);
+    MAP_GPIOPinConfigure(GPIO_PD7_USB0PFLT);
+    MAP_GPIOPinTypeUSBAnalog(GPIO_PORTB_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+    MAP_GPIOPinTypeUSBDigital(GPIO_PORTD_BASE, GPIO_PIN_6 | GPIO_PIN_7);
+    MAP_GPIOPinTypeUSBAnalog(GPIO_PORTL_BASE, GPIO_PIN_6 | GPIO_PIN_7);
+    
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_USB0);
+    USBStackModeSet(0, eUSBModeDevice, 0);
 #endif
 
 #ifdef PART_LM3S9B92
@@ -179,14 +192,18 @@ plat_preinit(void)
     MAP_GPIOPinWrite(USBPOW_GPIO_PORT, USBPOW_GPIO_PIN, USBPOW_GPIO_PIN);
 #endif // PART_LM3S9B92
 
-    // Set the clocking to run from the PLL at 50MHz
-    MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN |
-                       SYSCTL_XTAL_16MHZ);
+#ifdef TIVAWARE
+    // Erratum workaround for silicon revision A1.  VBUS must have pull-down.
+    if(CLASS_IS_BLIZZARD && REVISION_IS_A1)
+    {
+        HWREG(GPIO_PORTB_BASE + GPIO_O_PDR) |= GPIO_PIN_1;
+    }
+#endif
 
     // set up the timer /
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
 
-#ifdef PART_TM4C123GH6PGE
+#ifdef TIVAWARE
     // for TivaWare
     MAP_TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);
 #else
@@ -213,7 +230,7 @@ plat_preinit(void)
 #ifdef HAVE_PROFILER
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
     
-#ifdef PART_TM4C123GH6PGE
+#ifdef TIVAWARE
     // for TivaWare
     MAP_TimerConfigure(TIMER1_BASE, TIMER_CFG_ONE_SHOT);
 #else
@@ -248,7 +265,7 @@ plat_init(void)
 {
     // Set the systick timer and enable it.
     MAP_SysTickPeriodSet(MAP_SysCtlClockGet() / (1000 / CALLBACK_MS));
-    MAP_SysTickIntEnable();
+    //MAP_SysTickIntEnable();
     MAP_SysTickEnable();
 
     return PM_RET_OK;

@@ -8,6 +8,8 @@
  *
  */
 
+#include "pm.h"
+#include "stellaris.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -119,7 +121,7 @@ const unsigned char * const g_pStringDescriptors[] =
 tUSBDCDCDevice g_sCDCDevice =
 {
 
-#ifdef PART_TM4C123GH6PGE
+#ifdef TIVAWARE
     USB_VID_TI_1CBE, //USB_VID_YOUR_VENDOR_ID,
 #else
     USB_VID_STELLARIS, //USB_VID_YOUR_VENDOR_ID,

@@ -14,18 +14,6 @@
 #include "string.h"
 #include "plat.h"
 
-#ifdef PART_LM3S9B92
-#include "inc/lm3s9b92.h"
-#endif
-
-#ifdef PART_LM3S9D92
-#include "inc/lm3s9d92.h"
-#endif
-
-#ifdef PART_TM4C123GH6PGE
-#include "inc/tm4c123gh6pge.h"
-#endif
-
 #include "inc/hw_types.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_gpio.h"

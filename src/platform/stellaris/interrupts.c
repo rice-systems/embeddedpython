@@ -19,10 +19,20 @@
 
 extern void ticker_callback(void);
 
-extern void USB0DeviceIntHandler(void);
+// Snowflake moves the USB interrupt to what used to be the Ethernet interrupt.
+#ifndef CLASS_IS_SNOWFLAKE
+void __attribute__ ((interrupt)) usb0_isr (void);
+#else
+void __attribute__ ((interrupt)) eth_isr (void);
+#endif
+
 extern void GPIOIntHandler(unsigned long port);
 
+#ifndef CLASS_IS_SNOWFLAKE
 void __attribute__ ((interrupt)) usb0_isr (void) {
+#else
+void __attribute__ ((interrupt)) eth_isr (void) {
+#endif
   USB0DeviceIntHandler();
 }
 

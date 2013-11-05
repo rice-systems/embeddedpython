@@ -20,6 +20,29 @@ void       panic(int blinks);
 // for stack painting
 #define STACK_COLOR 42
 
+// include the right headers for the part and library
+#ifdef PART_LM3S9B92
+#include "inc/lm3s9b92.h"
+#include "inc/hw_ints.h"
+#define LEGACY_STELLARISWARE
+#endif
+
+#ifdef PART_LM3S9D92
+#include "inc/lm3s9d92.h"
+#include "inc/hw_ints.h"
+#define LEGACY_STELLARISWARE
+#endif
+
+#ifdef PART_TM4C123GH6PGE
+#include "inc/tm4c123gh6pge.h"
+#define TIVAWARE
+#endif
+
+#ifdef PART_TM4C129XNCZAD
+#include "inc/tm4c129xnczad.h"
+#define TIVAWARE
+#endif
+
 #ifdef PART_LM4F232H5QD
   /* LED Port/Pin */
   #define LED_SYSCTL_PORT    SYSCTL_PERIPH_GPIOG
