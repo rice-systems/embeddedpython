@@ -94,7 +94,13 @@ int wait_for_command(void) {
   
     /* Get the image type */
     while (1) 
-    {
+    {   
+        if (gpio_get(GPIOA, GPIO0))
+        {   
+            while(gpio_get(GPIOA, GPIO0)) {}
+            command = 'r';
+            break;
+        }
         if (plat_isDataAvail()) 
         {
             retval = plat_getByte(&command);
@@ -150,11 +156,11 @@ void load_image(void) {
 
     // nak the usb to stop the host from sending data during flash operations
     usb_setNak();
-    flash_unlock();
     flash_clear_status_flags();
+    flash_unlock();
 
     // erase sector 11
-    flash_erase_sector(FLASH_CR_SECTOR_11, 0);
+    flash_erase_sector((uint8_t)11, FLASH_CR_PROGRAM_X8);
     flash_wait_for_last_operation();
     flash_lock();
     usb_resetNak();
