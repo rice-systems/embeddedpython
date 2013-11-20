@@ -19,11 +19,9 @@ if not ((2, 7) <= sys.version_info < (3,)):
     print "Owl requires Python 2.7. Exiting."
     sys.exit(1)
 
-# On Linux, let's install the udev drivers for the supported microcontrollers
-if sys.platform.startswith('linux'):
-    data_files = [('/etc/udev/rules.d/', ['drivers/49-stellaris.rules', 'drivers/48-stm.rules'])]
-else:
-    data_files = ['drivers/49-stellaris.rules', 'drivers/48-stm.rules']
+# Easy-install doesn't let us write files outside of the egg, so we'll have to
+# just put them somewhere and try to install them later.
+data_files = ['drivers/49-stellaris.rules', 'drivers/48-stm.rules']
 
 with open('README') as readme_file:
         long_description = readme_file.read()
