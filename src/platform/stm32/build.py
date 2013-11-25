@@ -1,6 +1,6 @@
-time = '23Oct13, 03:27PM'
+time = '25Nov13, 03:17PM'
 user = 'twb'
-version = '0.4-pre'
+version = '0.4-pre4'
 platform = 'STM32'
 
 def show():
