@@ -96,7 +96,7 @@ plat_preinit(void)
                     GPIO9 | GPIO11 | GPIO12);
     gpio_set_af(GPIOA, GPIO_AF10, GPIO9 | GPIO11 | GPIO12);
 
-    systick_set_clocksource(STK_CTRL_CLKSOURCE_AHB_DIV8);
+    systick_set_clocksource(STK_CSR_CLKSOURCE_AHB_DIV8);
     usb_init(otg_fs_USBRxBuffer, otg_fs_USBTxBuffer);
 
 
