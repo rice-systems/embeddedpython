@@ -14,6 +14,7 @@ PM_LIB_ROOT = pmvm_$(PLATFORM)
 PM_LIB_FN = lib$(PM_LIB_ROOT).a
 PM_LIB_PATH = ../../vm/$(PM_LIB_FN)
 PM_USR_SOURCES = main.py build.py autowrapped/gpio.py autowrapped/spi.py autowrapped/rcc.py pylib/rng.py autowrapped/timer.py autowrapped/usart.py
+PM_USR_SOURCES += autowrapped/i2c.py autowrapped/crc.py
 PMIMGCREATOR := ../../tools/owl-tools/pmImgCreator.py
 IPM := true
 COMPILER = arm-none-eabi
