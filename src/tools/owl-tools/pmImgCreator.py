@@ -792,9 +792,10 @@ class PmImgCreator:
 
         ## General filter
         # ensure values fit within S8 type size
-        assert len(co.co_consts) < 128, "too many constants."
-        assert len(co.co_names) < 128, "too many names."
-        assert len(co.co_varnames) < 128, "too many local names."
+        # MAX_TUPLE_LEN takes care of this
+        #assert len(co.co_consts) < 128, "too many constants."
+        #assert len(co.co_names) < 128, "too many names."
+        #assert len(co.co_varnames) < 128, "too many local names."
         assert co.co_argcount < 128, "too many arguments."
         assert co.co_stacksize < 128, "too large of a stack."
         assert co.co_nlocals < 128, "too many local variables."

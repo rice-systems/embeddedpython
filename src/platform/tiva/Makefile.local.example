@@ -1,0 +1,17 @@
+# Directory locations
+
+# Base directory for TivaWare
+TIVABASE         = /Users/twb/tools/TivaWare
+
+# Base directory for libopencm3
+LIBOPENCM3BASE   = /Users/twb/github/libopencm3
+
+# Toolchain prefix (i.e., arm-none-eabi)
+TCHAIN           = arm-none-eabi
+
+# Linker script (i.e., tm4c129x_opencm3.ld)
+LINKERSCRIPT     = tm4c129x_opencm3.ld
+
+# Microcontroller (i.e., TM4C1294NCPDT)
+SUBMDL           = TM4C1294NCPDT
+
