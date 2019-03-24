@@ -1,6 +1,6 @@
 # Building Owl
 
-This process describes how to build the Owl VM from scratch. If you're just '''using''' Owl and programming with the libraries that are already included, you don't need to do this. There's a much simpler process that allows you to documented on the [[The Owl Embedded Python System|main page]].
+This process describes how to build the Owl VM from scratch. If you're just '''using''' Owl and programming with the libraries that are already included, you don't need to do this. There's a much simpler process that allows you to documented on the [main page](index.md).
 
 We've tested this process on 32-bit and 64-bit installs of Ubuntu 12.04 LTS.
 The system can likely be built on any modern version of Linux that uses Python
@@ -90,4 +90,4 @@ flash the controller:
 * $ cd ..
 * $ ./flash
  
-Great! Now we're ready to [[Mcu|Connect to the Microcontroller]].
+Great! Now we're ready to [Connect to the Microcontroller](mcu.md).
