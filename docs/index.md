@@ -45,4 +45,4 @@ Of course, just using a microcontroller as a computer isn't much fun. We want to
 
 Owl is open-source, published on [https://bitbucket.org/ricearch/embeddedpython BitBucket]. It can be freely copied, modified and distributed. Let us know what you're doing with it!
 
-* [[Building Owl]]
+* [Building Owl](building.md)
