@@ -14,23 +14,25 @@ On standard Python, pressing Ctrl-C will interrupt a running program. This is no
  
 When an exception occurs, the system only shows the information about the user program where the exception occurred. To get more detail about the exception, the user can type "verbose" at the prompt to get more info:
 
-<code>python&gt; "abc"[5] <br>
-Index error <br>
-File &lt;interactive&gt;, line 1 <br>
-Thread ID: 3 <br>
-python&gt; verbose <br>
-Error &#160;: Index error <br>
-File &#160;: seq.c <br>
-Line &#160;: 232 <br>
-Python File&#160;: &lt;interactive&gt; <br>
-Python Line&#160;: 1 <br>
-Info &#160;: <br>
-Thread ID &#160;: 3 <br>
-Traceback (top first)&#160;: <br>
--&lt;interactive&gt;() <br>
--ipm() <br>
--main() <br>
--&lt;module&gt;. <br> </code>
+```
+python> "abc"[5]
+Index error
+File <interactive> line 1
+Thread ID: 3
+python> verbose
+Error : Index error
+File : seq.c
+Line : 232
+Python File: <interactive> <br>
+Python Line: 1
+Info :
+Thread ID : 3
+Traceback (top first):
+-<interactive>()
+-ipm()
+-main()
+-<module>.
+```
  
 ## Run command
  
@@ -38,6 +40,8 @@ To make developing modules easier, IPM includes a ''run'' command. This command 
 
 Using this facility, you can run a file, edit it, then run it again without resetting the core.
 
-<code>python&gt; run test.py <br>
-hello world <br>
-python&gt; <br> </code>
+```
+python> run test.py
+hello world
+python>
+```
