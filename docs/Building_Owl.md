@@ -8,7 +8,7 @@ We've tested this process on 32-bit and 64-bit installs of Ubuntu 12.04 LTS. The
 
 First, download the commercial packages that will be used to build Owl:
 
--   CodeSourcery Lite: <http://www.mentor.com/embedded-software/sourcery-tools/sourcery-codebench/editions/lite-edition/arm-eabi>
+-   CodeSourcery Lite: <https://www.mentor.com/embedded-software/sourcery-tools/sourcery-codebench/editions/lite-edition/>
 -   StellarisWare: <http://www.ti.com/tool/sw-lm3s>
 
 Next, install the required Linux packages:
