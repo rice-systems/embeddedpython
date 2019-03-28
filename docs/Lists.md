@@ -1,12 +1,16 @@
+# Lists
+
 List methods
 ------------
 
 The _list module defines the object methods for all lists. All methods defined within it should be called directly on a list object:
 
-`>> a = [1, 2, 3]`
-`>>> a.append(4)`
-`>>> print a`
-`[1, 2, 3, 4]`
+```
+>>> a = [1, 2, 3]
+>>> a.append(4)
+>>> print a
+[1, 2, 3, 4]
+```
 
 ### l.append(o)
 
@@ -32,7 +36,7 @@ Finds the first element of l that is equal to o. If no elements are equal to o, 
 
 Inserts element i after the o-th element of l.
 
-=== l.pop(i=-1) ===
+### l.pop(i=-1)
 
 Removes and returns the i-th element from the list l, where i defaults to the last element in the list.
 

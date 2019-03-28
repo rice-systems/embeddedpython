@@ -1,3 +1,5 @@
+# Dictionaries
+
 Owl includes a minimal version of the Python dictionary type. For more information on standard Python dictionaries, see the [Python documentation](http://docs.python.org/2/tutorial/datastructures.html#dictionaries).
 
 Dictionaries are sometimes found in other languages as associative memories or associative arrays. Unlike sequences, which are indexed by a range of numbers, dictionaries are indexed by keys, which can be any immutable type. For instance, strings and numbers can always be keys. Tuples can be used as keys if they contain only strings, numbers, or tuples; however, if a tuple contains any mutable object either directly or indirectly, it cannot be used as a key. Lists can't be keys, since they can be modified in place using index assignments, slice assignments, or methods like append() and extend().
@@ -13,18 +15,22 @@ Creating dictionaries
 
 The typical way to create a dictionary is to use the dictionary literal:
 
-`>> a = {'a':1, 'b':2}`
-`>>> print a`
-`{'a':1, 'b':2}`
+```
+>>> a = {'a':1, 'b':2}
+>>> print a
+{'a':1, 'b':2}
+```
 
 Dictionary methods
 ------------------
 
 The _dict module defines the object methods for all dictionaries. All methods defined within it should be called directly on a dictionary object:
 
-`>> a = {'a':1, 'b':2}`
-`>>> a.keys()`
-`['a', 'b']`
+```
+>>> a = {'a':1, 'b':2}
+>>> a.keys()
+['a', 'b']
+```
 
 ### d.clear()
 

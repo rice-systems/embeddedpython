@@ -1,8 +1,12 @@
+# Built-in Library
+
 The built-in library defines the built-in default namespace. This default namespace contains those functions which can always be accessed anywhere.
 
-== HEXDIGITS = '0123456789abcdef' ==
+```
+HEXDIGITS = '0123456789abcdef'
+```
 
-A string consisting of all hex digits, used internally to check if something is a valid hex digit. Slicing it will allow you to test any base: HEXDIGITS\[:base\].
+A string consisting of all hex digits, used internally to check if something is a valid hex digit. Slicing it will allow you to test any base: ```HEXDIGITS[:base]```.
 
 abs(n)
 ------
@@ -17,12 +21,12 @@ Returns the memory address of object o.
 all(iterable)
 -------------
 
-Returns True if all objects in iterable evaluate to True (see [bool()](Built-in_library#bool() "wikilink")).
+Returns True if all objects in iterable evaluate to True (see [bool()](#boolo)).
 
 any(iterable)
 -------------
 
-Returns True if at least one of the objects in iterable evaluates to True (see [bool()](Built-in_library#bool() "wikilink")).
+Returns True if at least one of the objects in iterable evaluates to True (see [bool()](#boolo)).
 
 bool(o)
 -------
@@ -32,7 +36,7 @@ Converts a value to a Boolean, using the [standard truth testing procedure](http
 chr(n)
 ------
 
-Returns a string of one character whose ASCII code is the integer n. For example, chr(97) returns the string 'a'. The argument must be in the range \[0..255\], inclusive; a ValueError will be raised if n is outside that range. This is the inverse of [ord()](Built-in_library#ord() "wikilink").
+Returns a string of one character whose ASCII code is the integer n. For example, chr(97) returns the string 'a'. The argument must be in the range \[0..255\], inclusive; a ValueError will be raised if n is outside that range. This is the inverse of [ord()](#ord).
 
 cmp(obj1, obj2)
 ---------------
@@ -44,7 +48,8 @@ copy(o)
 
 Performs a shallow copy of the object o, returning the new copy.
 
-== dir(space=None) ==
+dir(space=None)
+---------------
 
 Without arguments, returns the list of names in the current local scope. With an argument, attempts to return a list of valid attributes for that object.
 
@@ -53,11 +58,11 @@ enumerate(l)
 
 Returns a list of tuples where each tuple contains one element from l and its index. For example:
 
--   &gt;&gt;&gt; enumerate(\['a', 'b', 'c'\])
+```
+>>> enumerate(['a', 'b', 'c'])
 
-<!-- -->
-
-     [(0, 'a'), (1, 'b'), (2, 'c')]
+[(0, 'a'), (1, 'b'), (2, 'c')]
+```
 
 eval(co, g, l)
 --------------
@@ -126,7 +131,7 @@ Returns the smallest item in iterable.
 ord(s)
 ------
 
-Given a string of length one, returns an integer representing the value of the byte when the argument is represented as an 8-bit string. For example, ord('a') returns the integer 97. This is the inverse of [chr()](Built-in_library#chr() "wikilink").
+Given a string of length one, returns an integer representing the value of the byte when the argument is represented as an 8-bit string. For example, ord('a') returns the integer 97. This is the inverse of [chr()](#chr).
 
 pow(x, y)
 ---------
@@ -143,9 +148,11 @@ str(n)
 
 Returns a string representation of the object n.
 
-== range(a, b=None, c=None) ==
+```
+range(a, b=None, c=None)
+```
 
-This is an alias to [xrange()](Built-in_library#xrange() "wikilink").
+This is an alias to [xrange()](#xrange).
 
 sum(s)
 ------
@@ -155,9 +162,11 @@ Returns the sum of all elements of s.
 type(o)
 -------
 
-Returns an integer representing the [internal type code](types "wikilink") of o.
+Returns an integer representing the [internal type code](Types "wikilink") of o.
 
-== xrange(start=None, stop, step=None) ==
+```
+xrange(start=None, stop, step=None)
+```
 
 This is a versatile function used to create xrange containing arithmetic progressions. It is most often used in for loops. The arguments must be plain integers. If the step argument is omitted, it defaults to 1. If the start argument is omitted, it defaults to 0.
 

@@ -1,3 +1,5 @@
+# Math
+
 These math functions are direct maps to the C floating-point math library. They accept either floats or ints and return floats as the result.
 
 acos(x)

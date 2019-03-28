@@ -1,11 +1,15 @@
+# Tuples
+
 Tuple methods
 -------------
 
 The _tuple modules defines the object methods for all tuples. It shouldn't be used directly. Instead, these methods should be called directly on a tuple object:
 
-`>> a = (1, 2)`
-`>>> print a.index(2)`
-`1`
+```
+>>> a = (1, 2)
+>>> print a.index(2)
+1
+```
 
 ### index(t, o)
 

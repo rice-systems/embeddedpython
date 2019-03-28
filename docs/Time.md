@@ -1,3 +1,5 @@
+# Time
+
 The time module is designed to be loosely compatible with Python's, though it only supports two functions. Additionally, since the microcontroller doesn't have a real-time clock, it can only report relative time since startup.
 
 sleep(n)

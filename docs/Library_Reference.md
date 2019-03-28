@@ -1,13 +1,15 @@
+# Library Reference
+
 The various libraries for Owl are each described on their own pages. For reference, these are all linked here.
 
 Libraries:
 
 -   [Built-in library](Built-in_library "wikilink")
--   [math](math "wikilink")
--   [profiler](profiler "wikilink")
--   [sys](sys "wikilink")
--   [time](time "wikilink")
--   [types](types "wikilink")
+-   [math](Math "wikilink")
+-   [profiler](Profiler "wikilink")
+-   [sys](Sys "wikilink")
+-   [time](Time "wikilink")
+-   [types](Types "wikilink")
 
 Libraries defining object methods:
 

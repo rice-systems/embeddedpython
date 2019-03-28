@@ -1,4 +1,6 @@
-The types module contains names for each built-in type. An object's type can be queried with the [type()](Built-in_library#type() "wikilink") function. Each value is an integer that represents the internal type code for an object; these integer representations are as follows:
+# Types
+
+The types module contains names for each built-in type. An object's type can be queried with the [type()](Built-in_library#type) function. Each value is an integer that represents the internal type code for an object; these integer representations are as follows:
 
 -   NoneType = 0
 -   IntType = 1

@@ -1,3 +1,5 @@
+# Downloads
+
 This page collects downloads for the Owl project including VM images and toolchain downloads.
 
 Virtual machine images
@@ -22,4 +24,4 @@ You may also need the flash-vm scripts:
 Source code
 -----------
 
-The Owl source code is published on BitBucket at [<https://bitbucket.org/ricearch/embeddedpython>](https://bitbucket.org/ricearch/embeddedpython).
+The Owl source code is published on GitHub at [{{ site.github.repository_url }}]({{ site.github.repository_url }}).

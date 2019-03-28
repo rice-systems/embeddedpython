@@ -1,3 +1,5 @@
+# Owl Python vs. Standard Python
+
 Owl is designed around Python 2.7 and uses the standard Python compiler. However, there are some features of Python that are not yet, and may never be, implemented in the Owl system. The following features are not available on Owl:
 
 -   Exception handling
