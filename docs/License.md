@@ -1,3 +1,8 @@
+---
+layout: default
+title: License
+---
+
 # License
 
 Owl is the product of several years of development by the Rice Computer Architecture Group at Rice University and a collection of wonderful open-source software projects. Combined, they provide an open-source environment for programming microcontrollers that is free and easy to use.
