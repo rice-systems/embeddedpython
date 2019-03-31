@@ -45,9 +45,9 @@ Puts a byte to the host. Like [sys.getb()](#getb), putb() is generally used with
 sleep(n)
 --------
 
-Sleeps for n milliseconds. Avoid calling this function, [sys._sleep_until()](#_sleep_until), or [sys.time()](#time) directly; rather, use the functions in [time](Time "wikilink"), which are consistent with the versions used in traditional Python.
+Sleeps for n milliseconds. Avoid calling this function, [sys._sleep_until()](#_sleep_untiln), or [sys.time()](#time) directly; rather, use the functions in [time](Time "wikilink"), which are consistent with the versions used in traditional Python.
 
 time()
 ------
 
-Returns the time, in milliseconds, since the microcontroller was powered on. Note that this includes time spent in the bootloader. Avoid calling this function, [sys._sleep_until()](#_sleep_until), or [sys.sleep()](#sleepn) directly; rather, use the functions in [time](Time "wikilink"), which are consistent with the versions used in traditional Python.
+Returns the time, in milliseconds, since the microcontroller was powered on. Note that this includes time spent in the bootloader. Avoid calling this function, [sys._sleep_until()](#_sleep_untiln), or [sys.sleep()](#sleepn) directly; rather, use the functions in [time](Time "wikilink"), which are consistent with the versions used in traditional Python.

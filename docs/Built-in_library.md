@@ -36,7 +36,7 @@ Converts a value to a Boolean, using the [standard truth testing procedure](http
 chr(n)
 ------
 
-Returns a string of one character whose ASCII code is the integer n. For example, chr(97) returns the string 'a'. The argument must be in the range \[0..255\], inclusive; a ValueError will be raised if n is outside that range. This is the inverse of [ord()](#ord).
+Returns a string of one character whose ASCII code is the integer n. For example, chr(97) returns the string 'a'. The argument must be in the range \[0..255\], inclusive; a ValueError will be raised if n is outside that range. This is the inverse of [ord()](#ords).
 
 cmp(obj1, obj2)
 ---------------
@@ -131,7 +131,7 @@ Returns the smallest item in iterable.
 ord(s)
 ------
 
-Given a string of length one, returns an integer representing the value of the byte when the argument is represented as an 8-bit string. For example, ord('a') returns the integer 97. This is the inverse of [chr()](#chr).
+Given a string of length one, returns an integer representing the value of the byte when the argument is represented as an 8-bit string. For example, ord('a') returns the integer 97. This is the inverse of [chr()](#chrn).
 
 pow(x, y)
 ---------
