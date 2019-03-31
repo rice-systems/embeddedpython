@@ -12,9 +12,9 @@ dict_profile()
 
 Returns statistics from the dictionary profiler. This output does not need to be post-processed.
 
-```
+
 profile_function(f, frequency=100)
-```
+----------------------------------
 
 Sets up the profiler, starts it, runs function f, then stops it. The result should be passed through the profiler.py post-processor in the tools directory.
 
@@ -33,9 +33,9 @@ set_context()
 
 Marks the current file as the one to profile for the line number profiler.
 
-```
+
 start(f=2001)
-```
+-------------
 
 Starts the profiler with f ticks per second. This number should be relatively prime to the VM tick frequency. Picking a number that is itself prime is a good way to do this.
 
