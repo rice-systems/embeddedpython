@@ -148,9 +148,8 @@ str(n)
 
 Returns a string representation of the object n.
 
-```
 range(a, b=None, c=None)
-```
+------------------------
 
 This is an alias to [xrange()](#xrange).
 
@@ -164,9 +163,8 @@ type(o)
 
 Returns an integer representing the [internal type code](Types "wikilink") of o.
 
-```
 xrange(start=None, stop, step=None)
-```
+-----------------------------------
 
 This is a versatile function used to create xrange containing arithmetic progressions. It is most often used in for loops. The arguments must be plain integers. If the step argument is omitted, it defaults to 1. If the start argument is omitted, it defaults to 0.
 
