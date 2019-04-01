@@ -10,6 +10,6 @@ microcontrollers, though there are more pieces yet to be released.
 
 You can find the Owl documentation, binaries and toolchains on our website at
 [embeddedpython.org](http://embeddedpython.org/). Most users should start there and only need the
-content on BitBucket if they're interested in porting or modifying Owl. If you
+content on GitHub if they're interested in porting or modifying Owl. If you
 have any questions about Owl, contact us at [twb@embeddedpython.org](mailto:twb@embeddedpython.org).
 
