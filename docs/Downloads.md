@@ -7,8 +7,8 @@ Virtual machine images
 
 The current VM release is 0.2. Be sure to download the correct version for the microcontroller you are using.
 
--   [vm-lm3s9b92-0.2.bin](http://embeddedpython.org/downloads/vm-lm3s9b92-0.2.bin)
--   [vm-lm3s9d92-0.2.bin](http://embeddedpython.org/downloads/vm-lm3s9d92-0.2.bin)
+-   [vm-lm3s9b92-0.2.bin](https://github.com/rice-systems/embeddedpython/releases/download/release-0.2/vm-lm3s9b92-0.2.bin)
+-   [vm-lm3s9d92-0.2.bin](https://github.com/rice-systems/embeddedpython/releases/download/release-0.2/vm-lm3sd92-0.2.bin)
 
 Toolchains
 ----------
@@ -19,7 +19,7 @@ The current toolchain release is 0.2.1 for UNIX-like operating systems (includin
 
 You may also need the flash-vm scripts:
 
--   [flash-vm-0.1.tar.gz](http://embeddedpython.org/downloads/flash-vm-0.1.tar.gz)
+-   [flash-vm-0.1.tar.gz](https://github.com/rice-systems/embeddedpython/releases/download/release-0.2/flash-vm-0.1.tar.gz)
 
 Source code
 -----------
